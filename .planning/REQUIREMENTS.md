@@ -18,7 +18,7 @@
 - [ ] **PETP-01**: User can add a pet with name, species, breed, birthdate, weight
 - [ ] **PETP-02**: User can edit existing pet profile information
 - [ ] **PETP-03**: User can view pet profile summary on dashboard
-- [ ] **PETP-04**: User can upload pet photo
+- [x] **PETP-04**: User can upload pet photo
 
 ### Health Tracking
 
@@ -30,17 +30,17 @@
 
 ### Data Visualization
 
-- [ ] **VIS-01**: User can view weight trend chart on dashboard
-- [ ] **VIS-02**: User can view activity summary chart on dashboard
-- [ ] **VIS-03**: User can filter data by date range (7 days to 1 year)
-- [ ] **VIS-04**: Charts show target lines and normal range shading
+- [x] **VIS-01**: User can view weight trend chart on dashboard
+- [x] **VIS-02**: User can view activity summary chart on dashboard
+- [x] **VIS-03**: User can filter data by date range (7 days to 1 year)
+- [x] **VIS-04**: Charts show target lines and normal range shading
 
 ### History Log
 
-- [ ] **HIST-01**: User can view chronological feed of all health entries
-- [ ] **HIST-02**: User can filter history by entry type (weight, activity, medication, vaccination)
-- [ ] **HIST-03**: User can search history by date or keyword
-- [ ] **HIST-04**: Each history entry shows date, type icon, title, and brief summary
+- [x] **HIST-01**: User can view chronological feed of all health entries
+- [x] **HIST-02**: User can filter history by entry type (weight, activity, medication, vaccination)
+- [x] **HIST-03**: User can search history by date or keyword
+- [x] **HIST-04**: Each history entry shows date, type icon, title, and brief summary
 
 ### Dashboard
 
@@ -68,7 +68,7 @@
 - [ ] **UI-01**: Card component for grouping related information
 - [ ] **UI-02**: Metric Display component for single-value emphasis
 - [ ] **UI-03**: Action Button component (Primary/Secondary styles)
-- [ ] **UI-04**: Chart/Graph component with date filtering
+- [x] **UI-04**: Chart/Graph component with date filtering
 - [ ] **UI-05**: Input Form components (date picker, dropdown, numeric input)
 - [ ] **UI-06**: Tab navigation with visual feedback (underline animation, color change)
 
@@ -77,7 +77,7 @@
 - [ ] **TECH-01**: App works offline with local data persistence
 - [ ] **TECH-02**: Console.log stripped from production builds
 - [ ] **TECH-03**: Secure storage for sensitive data (tokens, health records)
-- [ ] **TECH-04**: FlatList optimized with getItemLayout and memoization
+- [x] **TECH-04**: FlatList optimized with getItemLayout and memoization
 
 ## v2 Requirements
 
@@ -121,20 +121,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PETP-01 | Phase 1 | Pending |
 | PETP-02 | Phase 1 | Pending |
 | PETP-03 | Phase 1 | Pending |
-| PETP-04 | Phase 3 | Pending |
+| PETP-04 | Phase 3 | Complete |
 | HLTH-01 | Phase 2 | Pending |
 | HLTH-02 | Phase 2 | Pending |
 | HLTH-03 | Phase 2 | Pending |
 | HLTH-04 | Phase 2 | Pending |
 | HLTH-05 | Phase 2 | Pending |
-| VIS-01 | Phase 3 | Pending |
-| VIS-02 | Phase 3 | Pending |
-| VIS-03 | Phase 3 | Pending |
-| VIS-04 | Phase 3 | Pending |
-| HIST-01 | Phase 3 | Pending |
-| HIST-02 | Phase 3 | Pending |
-| HIST-03 | Phase 3 | Pending |
-| HIST-04 | Phase 3 | Pending |
+| VIS-01 | Phase 3 | Complete |
+| VIS-02 | Phase 3 | Complete |
+| VIS-03 | Phase 3 | Complete |
+| VIS-04 | Phase 3 | Complete |
+| HIST-01 | Phase 3 | Complete |
+| HIST-02 | Phase 3 | Complete |
+| HIST-03 | Phase 3 | Complete |
+| HIST-04 | Phase 3 | Complete |
 | DASH-01 | Phase 1 | Pending |
 | DASH-02 | Phase 1 | Pending |
 | DASH-03 | Phase 1 | Pending |
@@ -150,13 +150,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-01 | Phase 1 | Pending |
 | UI-02 | Phase 1 | Pending |
 | UI-03 | Phase 1 | Pending |
-| UI-04 | Phase 3 | Pending |
+| UI-04 | Phase 3 | Complete |
 | UI-05 | Phase 1 | Pending |
 | UI-06 | Phase 1 | Pending |
 | TECH-01 | Phase 2 | Pending |
 | TECH-02 | Phase 1 | Pending |
 | TECH-03 | Phase 2 | Pending |
-| TECH-04 | Phase 3 | Pending |
+| TECH-04 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 44 total
