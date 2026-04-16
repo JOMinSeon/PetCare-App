@@ -34,6 +34,11 @@
 12. Tab navigation shows visual feedback on selection
 13. All card, metric, action button, and input form components render correctly
 
+**Plans:**
+- [ ] 01-01-PLAN.md — Authentication foundation + tab navigation visual feedback
+- [ ] 01-02-PLAN.md — Pet profile management (add/edit/view)
+- [ ] 01-03-PLAN.md — UI component verification + Dashboard/Profile implementation
+
 **Research Flags:**
 - None — standard React Native patterns
 
