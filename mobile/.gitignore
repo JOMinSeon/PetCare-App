@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+*.hbc
+*.hbc.map
+*.jsbundle
+.env
+.env.local
+.env.*.local
+
+.vercel

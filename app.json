@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "bda5e89c-8acf-4075-92c8-dad12e4b4a27"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bda5e89c-8acf-4075-92c8-dad12e4b4a27"
+    },
+    "android": {},
+    "ios": {},
+    "owner": "jominseong"
+  }
+}
