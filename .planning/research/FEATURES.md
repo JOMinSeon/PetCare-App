@@ -1,201 +1,176 @@
-# Feature Landscape: AI Pet Symptom Analysis
+# Feature Research
 
-**Domain:** Camera-based AI symptom analysis for pets
-**Researched:** 2026-04-15
-**Confidence:** MEDIUM (WebSearch-based, limited Context7/Official doc access)
+**Domain:** Pet Health & Wellness Tracker
+**Researched:** 2026-04-16
+**Confidence:** MEDIUM
 
-## How AI Pet Symptom Analysis Works
+*Note: Primary sources include app store listings (FitBark, Tractive), competitor websites (11pets, PetDesk), and general pet health app knowledge. Several major review sites returned errors during research, limiting comprehensive competitor feature matrix. Recommendations are based on available data and established app patterns.*
 
-### Two Main Approaches
+## Feature Landscape
 
-| Approach | How It Works | Example |
-|----------|--------------|---------|
-| **LLM-Based Analysis** | User describes symptoms in text; LLM (Gemini, GPT-4) reasons over veterinary knowledge to provide possible conditions, urgency, recommendations | VetTrack-AI, vet-bot |
-| **Computer Vision Analysis** | User uploads image (skin lesion, eye, etc.); CNN/YOLOv8 model classifies into specific disease categories | PetDiseaseApi (YOLOv8, 22 conditions) |
+### Table Stakes (Users Expect These)
 
-### Typical Workflow
+Features users assume exist. Missing these = product feels incomplete.
 
-```
-1. User selects pet from profile (species, breed, age needed for context)
-2. User captures/uploads symptom photo OR describes symptoms in text
-3. AI processes:
-   - Image: Object detection/classification (what condition, where)
-   - Text: LLM reasoning over symptom description
-4. Returns structured response:
-   - Possible condition(s) with confidence %
-   - Severity/urgency level (Low/Medium/High/Emergency or Red/Yellow/Green)
-   - Treatment recommendations
-   - Prevention tips
-5. Always: Medical disclaimer (NOT a substitute for vet diagnosis)
-```
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| **Pet Profile Management** | Users want to identify their pet with name, breed, age, weight, photo | LOW | Core identity feature; photo upload important for emotional connection |
+| **Activity Tracking** | Pet owners want to know if their pet is getting enough exercise | MEDIUM | Steps, distance, active minutes; depends on sensor data source |
+| **Sleep Monitoring** | Understanding pet rest patterns is basic health awareness | LOW | Most trackers collect this; often underutilized by users |
+| **Weight Logging** | Regular weight tracking catches health issues early | LOW | Manual entry acceptable; graphs over time are valuable |
+| **Vaccination Records** | Required for vet visits, travel, boarding | LOW | Document storage with dates; reminders for due dates |
+| **Medication Reminders** | Pet owners commonly forget doses | LOW | Push notifications; critical for compliance |
+| **Appointment Scheduling** | Managing vet visits is a common pain point | MEDIUM | Integration with calendars or in-app scheduling |
+| **Health History Timeline** | Single place for all health events | MEDIUM | Chronological log of vet visits, medications, incidents |
+| **Data Visualization (Charts/Graphs)** | Users want to see trends in their pet's health | MEDIUM | Line charts for weight, bar charts for activity; date range filtering |
+| **Multi-Pet Support** | Many households have multiple pets | MEDIUM | Tab-based or list-based navigation |
 
-### Urgency Assessment Systems
+### Differentiators (Competitive Advantage)
 
-Common pattern across solutions: **Traffic Light System**
-- 🔴 **Red/Emergency** — Seek immediate vet care
-- 🟡 **Yellow/Watch** — Monitor closely, vet visit soon
-- 🟢 **Green/Low** — Likely benign, monitor
-
----
-
-## Table Stakes
-
-Features users expect. Missing = product feels incomplete.
-
-| Feature | Why Expected | Complexity | Dependencies |
-|---------|--------------|------------|--------------|
-| **Photo capture/upload** | Core interaction for visual symptom analysis | Low | Camera permissions, image storage |
-| **Basic symptom analysis** | Primary value proposition | Medium | AI API (LLM or CV model) |
-| **Urgency indicator** | Helps users decide if immediate vet visit needed | Low | AI output formatting |
-| **Results with recommendations** | Users need to know what to do next | Low | Knowledge base integration |
-| **Medical disclaimer** | Legal requirement for health-adjacent apps | Low | UI copy |
-| **Analysis history/timeline** | Track symptom progression over time | Medium | Database, existing pet profiles |
-
-### Dependencies on Existing v1.0 Features
-
-| Existing Feature | How It Supports AI Analysis |
-|------------------|----------------------------|
-| Pet profiles | Species/breed/age required for accurate AI context |
-| Health records | Prior conditions help AI avoid false positives |
-| Reminders | Can trigger follow-up reminders based on AI recommendations |
-
----
-
-## Differentiators
-
-Features that set product apart. Not expected, but valued.
+Features that set the product apart. Not required, but valuable.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| **Multi-modal input** | Combine photo + text description for richer context | Medium | LLM can reason over both |
-| **Condition-specific guidance** | Step-by-step home care instructions for common issues | Medium | Requires detailed knowledge base |
-| **Vet clinic integration** | One-tap booking from AI results to nearby animal hospital | Medium | Existing Kakao Maps API (v1.0) |
-| **Voice output** | Murf TTS-style audio playback of results for accessibility | Medium | Third-party TTS API |
-| **Document OCR** | Parse lab reports, vaccination certificates from photos | High | Vision AI + document understanding |
-| **Pet context awareness** | AI considers pet's full health history, not just current symptom | Medium | Requires health records integration |
-| **Community data anonymization** | Show "X users had similar symptoms, Y resolved with..." | High | Privacy-preserving aggregation |
+| **GPS Tracking & Location History** | Peace of mind for escape-prone pets; Tractive/FitBark make this standard for worried owners | HIGH | Requires hardware or phone GPS; subscription model typical |
+| **Virtual Fences / Safe Zones** | Instant alerts when pet leaves designated areas | MEDIUM | Wi-Fi-based (home) or GPS-based zones; escape prevention |
+| **Early Health Alerts** | Proactive notification when pet's behavior changes (Tractive calls this "Early Health Alerts") | HIGH | Requires baseline data; ML/pattern recognition; high value for senior pets |
+| **Benchmark Comparison** | "How does my dog compare to others their age/breed?" — FitBark offers this | MEDIUM | Aggregate data from other users; breed-specific norms |
+| **Family/Caregiver Sharing** | Multiple family members want access; dog walkers, sitters need temporary access | MEDIUM | Granular permissions important; 11pets emphasizes this |
+| **Vet Record Sharing** | Share health data directly with veterinarian | MEDIUM | PDF export or direct integration; reduces "forgot the paperwork" problem |
+| **Stress/Anxiety Monitoring** | Detect separation anxiety or stress when owner is away — FitBark Hourly View, Tractive Bark Monitoring | MEDIUM | Behavioral analysis; useful for dogs with anxiety issues |
+| **Skin/Itch Monitoring** | Track dermatitis, allergies, flea allergies via sleep patterns — FitBark specifically mentions this | MEDIUM | Indirect measurement via activity changes |
+| **Mobility/Pain Tracking** | Early detection of osteoarthritis, joint issues — especially valuable for senior pets | HIGH | Research-backed (Mayo Clinic uses FitBark for this) |
+| **Wearable Integration** | Sync with Fitbit, Google Fit, Apple Watch — FitBark offers this | MEDIUM | Human fitness social features; family competitions |
+| **Community Forum** | Peer advice, breed-specific groups | LOW | Low differentiation; moderation burden |
+| **Service Marketplace** | Book vet appointments, grooming, daycare — PetDesk focuses here | HIGH | Integration complexity; revenue opportunity |
 
-### AI Backing Options
+### Anti-Features (Commonly Requested, Often Problematic)
 
-| Approach | Pros | Cons | Complexity |
-|---------|------|------|------------|
-| **LLM API (Gemini, GPT-4)** | Natural language reasoning, no training needed | API costs, slower, may hallucinate | Low |
-| **Fine-tuned CV model (YOLOv8)** | Fast, accurate for specific conditions | Requires training data, limited to trained conditions | High |
-| **Hybrid (LLM + CV)** | Best of both — CV for detection, LLM for reasoning | Complexity of integrating two systems | High |
+Features that seem good but create problems.
 
-**Recommendation for MVP:** Start with LLM API only. Use GPT-4o or Gemini Flash for:
-- Symptom text analysis
-- Photo analysis via vision-capable LLMs (GPT-4o, Gemini 1.5)
-
-This avoids training a custom model while providing broad coverage.
-
----
-
-## Anti-Features
-
-Features to explicitly NOT build.
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| **Definitive diagnosis claims** | AI cannot replace veterinary examination; legal/ethical risk | Frame as "possible conditions" with confidence ranges |
-| **Guaranteed accuracy** | Never 100%; will fail on edge cases | Use confidence percentages, always recommend vet confirmation |
-| **Prescription capability** | Illegal without veterinary license | Recommend OTC options or "consult your vet" |
-| **Real-time video analysis** | High complexity, latency issues, not needed for static photos | Static image analysis sufficient |
-| **Ignoring pet context** | Same symptom means different things for different species/breeds/ages | Always require pet selection first |
-| **No urgency escalation** | Users may dismiss serious symptoms | Strong urgency indicators, especially for emergency signs |
-
----
-
-## MVP Recommendation
-
-### Prioritize (v1.1)
-
-1. **Pet selection with context** — Select which pet, species/breed/age pre-populated from profiles
-2. **Photo capture + upload** — Camera integration (Expo Camera or Image Picker)
-3. **LLM-based symptom analysis** — Use GPT-4o Vision or Gemini 1.5 Flash for image + text input
-4. **Urgency indicator** — Red/Yellow/Green with clear action labels
-5. **Results display** — Condition name, confidence %, what to do next
-6. **Medical disclaimer** — Prominent, unavoidable
-7. **Save to timeline** — Link analysis to pet's health record
-
-### Defer (Future Milestones)
-
-| Feature | Reason for Deferral |
-|---------|---------------------|
-| Custom CV model training | High cost, LLM vision sufficient for MVP |
-| Lab report OCR | Complex document understanding |
-| Vet booking from results | Can link to existing hospital search |
-| Community symptom matching | Privacy concerns, low priority |
-| Voice output | Accessibility nice-to-have, not core |
-
----
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| **Real-time Video Chat with Vets** | Immediate professional guidance seems valuable | High infrastructure cost; low utilization; liability for advice; requires vet availability | Pre-scheduled video consultations; asynchronous vet Q&A |
+| **Auto-Diagnosis from Symptoms** | Users want instant answers | Liability risk; accuracy concerns; veterinary medicine requires physical exam | Triage guidance ("when to see a vet"); symptom logging for vet visits |
+| **Social Media for Pets** | Users enjoy sharing pet content | Privacy concerns; moderation burden; not differentiated from general social apps | Share-with-vet functionality; optional private sharing |
+| **Automated Diet Recommendations** | Users want optimal nutrition guidance | Requires vet consultation; liability for nutritional advice | Educational content; food database for manual logging |
+| **Multi-vendor Appointment Booking** | Convenience of booking anywhere | Vet practice management fragmentation; integration cost | Direct booking with user's primary vet; calendar sync |
 
 ## Feature Dependencies
 
 ```
-Pet Profile Selection
-    ↓
-Photo Capture (or Text Description)
-    ↓
-AI Analysis (LLM Vision API)
-    ↓
-Urgency Assessment + Recommendations
-    ↓
-Save to Health Timeline ←→ Existing Health Records
-    ↓
-(Optional) Trigger Reminder
+Pet Profile
+    └── Multi-Pet Support (multiple profiles)
+    └── Photo Upload
+
+Health Data Collection
+    ├── Activity Tracking
+    │       └── Activity Graphs
+    │       └── Benchmark Comparison
+    ├── Sleep Monitoring
+    │       └── Skin/Itch Detection (via sleep patterns)
+    ├── Weight Logging
+    │       └── Weight Trend Alerts
+    └── Manual Health Events
+            └── Health History Timeline
+
+Alerts & Notifications
+    ├── Medication Reminders
+    ├── Vaccination Reminders
+    ├── Appointment Reminders
+    └── Early Health Alerts (requires baseline data)
+
+Sharing & Collaboration
+    ├── Family/Caregiver Access
+    └── Vet Record Sharing
 ```
 
----
+## MVP Definition
 
-## Technical Considerations
+### Launch With (v1)
 
-### Image Requirements
-- Format: JPG, PNG, WEBP
-- Size limit: 10MB typical for API calls
-- Guidance to users: Clear, well-lit photos of affected area
+Minimum viable product — what's needed to validate the concept.
 
-### API Options (2025-2026)
+- [ ] **Pet Profile** — Essential identity; photo, breed, age, weight
+- [ ] **Activity Logging** — Manual or sensor-based; depends on hardware strategy
+- [ ] **Weight Tracking with Graph** — Core health metric; date range filtering
+- [ ] **Health History Timeline** — One place for all health events
+- [ ] **Medication Reminders** — High utility; critical for compliance
+- [ ] **Vaccination Records** — Document storage with due date alerts
+- [ ] **Appointment Reminders** — Simple push notification calendar
+- [ ] **Data Visualization** — Charts for weight, activity over time
 
-| Provider | Vision Capability | Cost | Notes |
-|----------|-------------------|------|-------|
-| OpenAI GPT-4o | Image input + reasoning | Pay-per-use | Well-documented, reliable |
-| Google Gemini 1.5 Flash | Image input + reasoning | Free tier generous | Good for prototype |
-| Anthropic Claude | Vision (3.5 Sonnet) | Pay-per-use | Strong reasoning |
+### Add After Validation (v1.x)
 
-### Response Structure (Recommended)
+Features to add once core is working.
 
-```json
-{
-  "analysis_id": "uuid",
-  "pet_id": "uuid",
-  "input_type": "image" | "text" | "both",
-  "possible_conditions": [
-    {
-      "name": "Skin allergy",
-      "confidence": 0.78,
-      "description": "Redness and itching typically indicate...",
-      "severity": "medium"
-    }
-  ],
-  "urgency": "yellow",
-  "urgency_message": "Monitor closely; see vet within 24-48 hours if worsening",
-  "recommendations": ["Keep area clean", "Prevent scratching", "Schedule vet visit"],
-  "disclaimer": "This is not a veterinary diagnosis. Consult a licensed vet.",
-  "created_at": "ISO8601"
-}
-```
+- [ ] **Family Sharing** — Add caregivers; granular permissions
+- [ ] **Vet Record Export** — PDF summary for vet visits
+- [ ] **Sleep Monitoring** — If wearable integration exists
+- [ ] **Stress Indicators** — Behavioral pattern analysis
+- [ ] **Date Range Filtering** — 7 days, 30 days, 90 days, 1 year views
 
----
+### Future Consideration (v2+)
+
+Features to defer until product-market fit is established.
+
+- [ ] **GPS Tracking** — Requires hardware or phone GPS; subscription model
+- [ ] **Virtual Fences** — Escape alerts; GPS-dependent
+- [ ] **Early Health Alerts** — ML requires significant baseline data
+- [ ] **Wearable Integration** — Fitbit/Google Fit/Apple Watch sync
+- [ ] **Service Marketplace** — Vet booking; requires partner integrations
+- [ ] **Community Features** — Forums, peer advice
+
+## Feature Prioritization Matrix
+
+| Feature | User Value | Implementation Cost | Priority |
+|---------|------------|---------------------|----------|
+| Pet Profile | HIGH | LOW | P1 |
+| Weight Tracking + Graph | HIGH | LOW | P1 |
+| Activity Logging | HIGH | MEDIUM | P1 |
+| Medication Reminders | HIGH | LOW | P1 |
+| Health History Timeline | HIGH | MEDIUM | P1 |
+| Vaccination Records | MEDIUM | LOW | P1 |
+| Appointment Reminders | MEDIUM | LOW | P2 |
+| Data Visualization (Charts) | HIGH | MEDIUM | P1 |
+| Multi-Pet Support | MEDIUM | MEDIUM | P2 |
+| Family Sharing | MEDIUM | MEDIUM | P2 |
+| Vet Record Export | MEDIUM | LOW | P2 |
+| Sleep Monitoring | MEDIUM | MEDIUM | P2 |
+| Stress/Anxiety Detection | MEDIUM | HIGH | P3 |
+| Early Health Alerts | HIGH | HIGH | P3 |
+| GPS + Virtual Fences | HIGH | HIGH | P3 |
+| Wearable Integration | MEDIUM | HIGH | P3 |
+
+## Competitor Feature Analysis
+
+| Feature | FitBark | Tractive | 11pets | Our Approach |
+|---------|---------|----------|--------|--------------|
+| **GPS Tracking** | Yes | Yes | No | Defer to v2 (hardware-dependent) |
+| **Activity Monitoring** | Yes | Yes | Partial | P1 — manual or sensor-based |
+| **Sleep Tracking** | Yes | Yes | No | P2 — via wearable or manual |
+| **Weight Logging** | Yes | Via health | Yes | P1 — core feature |
+| **Health History** | Yes | Yes | Yes | P1 — timeline |
+| **Medication Reminders** | No | No | Yes | P1 — essential |
+| **Vaccination Tracking** | No | No | Yes | P1 — document storage |
+| **Vet Appointments** | No | No | Yes | P2 — basic reminders |
+| **Family Sharing** | Yes | Yes | Yes | P2 — after core |
+| **Vet Sharing** | No | No | Yes | P2 — export/print |
+| **Health Alerts** | Yes (mobility, pain) | Yes (early alerts) | No | P3 — requires baseline |
+| **Benchmark Comparison** | Yes (breed/age/weight) | No | No | P2 — differentiate via insights |
+| **Stress Monitoring** | Yes (Hourly View) | Yes (Bark) | No | P3 — advanced |
+| **Multi-Pet** | Yes | Yes | Yes | P2 — after single-pet validation |
+
+**Key Insight:** Most competitors focus on hardware-based tracking (FitBark, Tractive). Software-only apps (11pets) focus on care management. **VitalPaw Proactive** aligns with 11pets' software approach but emphasizes data visualization and proactive health insights — a gap in current market.
 
 ## Sources
 
-- [VetTrack-AI](https://github.com/kashisharora-14/VetTrack-AI) — LLM-based symptom analysis with Gemini, photo diagnosis (GitHub, 2026)
-- [PetDiseaseApi](https://github.com/Eswarchinthakayala-webdesign/PetDiseaseApi) — YOLOv8-based disease classification for 22 conditions (GitHub, 2026)
-- [vet-bot](https://github.com/ArtSteel/vet-bot) — LLM + Vision AI for pet document parsing, urgency traffic light system (GitHub, 2026)
-- [Pawp](https://www.pawp.com) — 24/7 vet consultation service (production app, 2025)
+- **FitBark** — App Store listing (2026), product website; activity/health monitoring with GPS, used by Mayo Clinic for research
+- **Tractive** — Product website (2026); GPS + health monitoring, Early Health Alerts, bark monitoring
+- **11pets** — Product website (2026); care management, medication reminders, family sharing, vet sharing
+- **PetDesk** — Product website; veterinary practice management, appointment booking (clinic-side focus)
+- **General Industry Knowledge** — Standard patterns for pet health tracking apps; medication compliance; vet visit management
 
-**Confidence Notes:**
-- Sources are GitHub repos and product websites — not peer-reviewed or formally verified
-- Technology patterns (LLM + CV hybrid) confirmed across multiple independent implementations
-- Specific model accuracy claims not independently validated
+---
+*Feature research for: Pet Health & Wellness Tracker*
+*Researched: 2026-04-16*

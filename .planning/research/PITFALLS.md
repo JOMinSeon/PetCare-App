@@ -1,272 +1,390 @@
-# Domain Pitfalls: AI Symptom Analysis for Pet Health App
+# Pitfalls Research
 
-**Project:** Petcare App v1.1 AI 증상 분석
-**Researched:** 2026-04-15
+**Domain:** Pet Health & Wellness Tracker
+**Researched:** 2026-04-16
 **Confidence:** MEDIUM
-
-## Executive Summary
-
-Adding AI image analysis for pet symptom assessment introduces significant risks beyond typical feature development. The primary dangers are false diagnostic confidence leading to delayed veterinary care, privacy leakage of sensitive pet health data, and regulatory liability from accuracy claims. Unlike general AI features, medical-adjacent AI requires explicit safety disclaimers, continuous accuracy validation, and clear user education about limitations.
 
 ## Critical Pitfalls
 
-### Pitfall 1: False Confidence / Delayed Veterinary Care
+### Pitfall 1: Sensitive Data Storage in AsyncStorage
 
-**What goes wrong:** Users receive AI analysis suggesting "mild condition" and skip seeking professional care, resulting in worsened outcomes.
-
-**Why it happens:** AI models provide confident-sounding outputs even with limited information. Users interpret probabilistic outputs as definitive diagnoses.
-
-**Consequences:**
-- Pet health deterioration from delayed treatment
-- Legal liability for app/company
-- Reputation destruction from news stories ("app told me my dog was fine, he died")
-
-**Prevention:**
-- Mandatory prominent disclaimers: "Not a veterinary diagnosis. Always consult a veterinarian."
-- Confidence scoring should be inverted or reframed (show uncertainty)
-- Escalation prompts for any symptom involving vomiting, lethargy, breathing issues, injury
-- Time-limited recommendations with explicit "seek care NOW" thresholds
-
-**Detection:**
-- Track follow-through on recommended actions
-- Monitor if users repeatedly ignore high-priority alerts
-- Survey users post-analysis about their next actions
-
----
-
-### Pitfall 2: Accuracy Overclaiming Without Validation
-
-**What goes wrong:** Marketing claims "95% accurate" but validation testing was on curated data, not real-world conditions.
-
-**Why it happens:** AI model accuracy varies dramatically by:
-- Training data demographics (specific breeds, ages, conditions)
-- Image quality (user camera quality, lighting, pet positioning)
-- Clinical context (伴 symptoms user can't observe)
-
-**Consequences:**
-- Regulatory action (FTC, state AG) for deceptive claims
-- Class action lawsuits if users relied on inaccurate analysis
-- Platform removal (App Store, Google Play) for health misinformation
-
-**Prevention:**
-- Use validated accuracy figures only from peer-reviewed studies or independent testing
-- Qualify all accuracy claims with conditions: "On clear images of skin conditions, our model achieves X% accuracy"
-- Never claim to "diagnose" — use "suggests" or "identifies potential"
-- Include confidence intervals, not just point estimates
-
-**Detection:**
-- Regular accuracy audits on production data
-- A/B testing of accuracy across demographic segments
-- Third-party validation studies
-
----
-
-### Pitfall 3: Privacy Data Leakage of Pet Health Records
-
-**What goes wrong:** Pet symptom photos, location data, and health history are exposed or sold.
+**What goes wrong:**
+Pet health data (weight records, medical history, vaccination dates, dietary information) gets stored in AsyncStorage. This unencrypted key-value store is accessible to anyone with device access, and data persists across app reinstalls.
 
 **Why it happens:**
-- Images may contain home环境的 identifiable information
-- Pet health data is valuable for insurance companies, pet food industry
-- Third-party AI providers may retain training data
-- Insufficient encryption in transit or at rest
+Developers use AsyncStorage for convenience without understanding it's unencrypted. For a pet health app handling sensitive medical information, this creates data exposure risk. AsyncStorage sandbox doesn't protect against device rooting/root access.
 
-**Consequences:**
-- Privacy law violations (KVLG in Korea, GDPR for EU users, CCPA for California)
-- User trust destruction
-- Competitive disadvantage if health data leaks
+**How to avoid:**
+- Never store sensitive pet health data in AsyncStorage
+- Use react-native-keychain or expo-secure-store for credentials and tokens
+- Store health records in encrypted storage or server-side with proper auth
+- Implement proper token storage in Keychain (iOS) / EncryptedSharedPreferences (Android)
 
-**Prevention:**
-- On-device processing where possible (image never leaves phone)
-- If cloud processing required: end-to-end encryption, explicit consent, data retention limits
-- Vet AI provider contracts must prohibit data reuse for training
-- Clear privacy policy written in plain language, not legalese
-- Offer opt-out of data sharing for AI improvement
+**Warning signs:**
+- `AsyncStorage.setItem('petHealthData', JSON.stringify(...))` patterns in code
+- No secure storage implementation found
+- Token persistence via AsyncStorage instead of Keychain
 
-**Detection:**
-- Security audits
-- Data flow mapping
-- Vendor security questionnaires
+**Phase to address:**
+Phase 2 (Data Layer & Core Features) — Security is foundational
 
 ---
 
-### Pitfall 4: Training Data Bias / Limited Species Coverage
+### Pitfall 2: FlatList Performance Collapse with Health Data History
 
-**What goes wrong:** Model performs well on common breeds but fails on mixed breeds, exotic pets, or rare conditions.
+**What goes wrong:**
+History log screen renders a FlatList with weight entries, activity logs, dietary records. Without proper optimization, the list becomes unresponsive, shows blank areas during scroll, and drops frames making the app feel broken.
 
 **Why it happens:**
-- Training data skews toward popular dog/cat breeds
-- Rare conditions underrepresented in training
-- Different coat colors/patterns affect visual analysis
-- Age-related conditions (puppy/kitten vs senior) may confuse models
+Health tracking generates substantial historical data. FlatList without `getItemLayout`, `maxToRenderPerBatch`, `windowSize` configuration renders inefficiently. Anonymous renderItem functions recreate on every render. Heavy list item components (with images, nested views) compound the issue.
 
-**Consequences:**
-- Missed diagnoses for certain pets
-- Discriminatory service quality (users with "unusual" pets get worse experience)
-- Angry users when basic symptoms are misidentified
-
-**Prevention:**
-- Publish species, breed, and condition coverage statistics
-- Clear UI indication when pet type is outside validated scope
-- Continuous model improvement with diverse data collection
-- Fallback to "consult a vet" for edge cases
-
-**Detection:**
-- Accuracy broken down by species, breed, condition type
-- Monitor error rates across different segments
-- Collect user feedback on misdiagnosis
-
----
-
-## Moderate Pitfalls
-
-### Pitfall 5: Regulatory Uncertainty in Veterinary AI
-
-**What goes wrong:** App is classified as medical device requiring approval, but launched without proper clearance.
-
-**Why it happens:**
-- Regulatory status of veterinary AI varies by country
-- Korea's KVLG ( livestock/welfare law) may apply
-- EU IVDR may apply if marketed for diagnostic purposes
-- FDA (US) has framework for AI in animal health
-
-**Consequences:**
-- App removal from regional app stores
-- Fines for unapproved medical device marketing
-- Cease and desist orders
-
-**Prevention:**
-- Consult regulatory expert in each target market before launch
-- Frame features as "informational" not "diagnostic"
-- Prepare regulatory pathway documentation early
-- Consider obtaining voluntary certifications
-
-**Phase implications:** This should be addressed in early phase before beta launch, not during development.
-
----
-
-### Pitfall 6: Image Quality Failures Leading to Misdiagnosis
-
-**What goes wrong:** Blurry photos, poor lighting, or wrong angle produces incorrect analysis.
-
-**Why it happens:**
-- Users are not professional photographers
-- Pets don't stay still
-- Home environments have variable lighting
-- Camera quality varies across devices
-
-**Prevention:**
-- Built-in image quality validation with reshoot prompts
-- Guidance UI showing ideal photo angle/lighting
-- Confidence penalty for low-quality images
-- Multiple photo capture option to increase chances of clear image
-
-**Detection:**
-- Track image quality metrics alongside analysis results
-- Correlate low-quality images with higher error rates
-
----
-
-### Pitfall 7: User Misunderstanding of AI Role
-
-**What goes wrong:** Users think AI replaces veterinary expertise, not supplements it.
-
-**Why it happens:**
-- "AI doctor" framing in marketing materials
-- Sophisticated AI output looks definitive
-- Convenience bias (avoid vet visit if "AI can do it")
-
-**Prevention:**
-- Marketing language must emphasize augmentation, not replacement
-- In-app education about AI limitations at first launch and periodically
-- Require acknowledgment of disclaimers before first use
-- Positive reinforcement for users who do seek veterinary care
-
-**Detection:**
-- User research sessions testing understanding
-- Survey users on when they would still see a vet vs rely on AI
-
----
-
-## Minor Pitfalls
-
-### Pitfall 8: Camera-Performance Variance
-
-**What goes wrong:** Analysis results differ between flagship and budget phones.
-
-**Prevention:** Test on range of devices; calibrate confidence scores based on image metadata.
-
-### Pitfall 9: Lighting Condition Failures
-
-**What goes wrong:** Flash photography creates glare on eyes/skin; low light introduces noise.
-
-**Prevention:** Guidance for ambient lighting; detect and flag flash photos.
-
-### Pitfall 10: Coat Color/Pattern Confusion
-
-**What goes wrong:** White pets show different visual symptoms than dark pets; patterns confuse lesion detection.
-
-**Prevention:** Ensure training data includes diverse coat types; validate separately.
-
----
-
-## Phase-Specific Warnings
-
-| Phase Topic | Likely Pitfall | Mitigation |
-|-------------|---------------|------------|
-| Model selection | Picking model without vet validation | Require peer-reviewed accuracy data before selection |
-| Beta testing | Users using AI instead of vet | Monitor usage patterns; enforce disclaimer acknowledgment |
-| Launch marketing | Overclaiming accuracy | Legal review of all marketing copy |
-| Data handling | Privacy leaks to third parties | Security audit before launch |
-| Ongoing operations | Model drift over time | Schedule regular accuracy revalidation |
-
----
-
-## Accuracy Validation Requirements
-
-**Must include in any AI symptom feature:**
-
-1. **Confidence Score Display** — Show numerical confidence, not just binary "detected/not detected"
-2. **Limitation Acknowledgment** — "This tool may be less accurate for [conditions/breeds/species]"
-3. **Escalation Triggers** — Automatic prompts for: respiratory distress, severe bleeding, collapse, prolonged vomiting (>24h), seizures
-4. **Disclaimers** — Visible before every analysis, not buried in terms of service
-5. **Human Oversight Option** — Route high-confidence-concerning results to human vet review pathway
-
----
-
-## Recommended Disclaimer Language
-
+**How to avoid:**
+```tsx
+<FlatList
+  data={healthRecords}
+  renderItem={renderHealthRecord}  // defined outside component with useCallback
+  keyExtractor={item => item.id}
+  getItemLayout={(data, index) => ({
+    length: 80,  // consistent row height
+    offset: 80 * index,
+    index,
+  })}
+  removeClippedSubviews={true}
+  maxToRenderPerBatch={10}
+  windowSize={21}
+  initialNumToRender={15}
+/>
 ```
-IMPORTANT: This feature provides informational analysis only, 
-not a veterinary diagnosis. Results are not guaranteed to be 
-accurate or complete. Always consult a licensed veterinarian 
-for medical advice about your pet. If your pet is experiencing 
-a medical emergency, contact your nearest emergency veterinary 
-hospital immediately.
+- Implement `getItemLayout` for predictable row heights
+- Use React.memo on list items with custom comparison functions
+- Move renderItem outside component, wrap in useCallback
+- Use lightweight components for list items — avoid heavy nesting
+
+**Warning signs:**
+- History screen scroll performance degrades over time
+- "Blank areas" visible when scrolling quickly
+- JS thread FPS drops below 60 during list scroll
+
+**Phase to address:**
+Phase 3 (Dashboard & Visualization) — List performance affects core UX
+
+---
+
+### Pitfall 3: Deep Linking Security Vulnerability
+
+**What goes wrong:**
+App implements deep linking for vet appointment reminders or pet profile sharing. Sensitive data (pet ID, health record references) gets passed in URL scheme, exposing it to interception by malicious apps registered to the same scheme.
+
+**Why it happens:**
+Deep link URL schemes (`vitalpaw://appointment/123`) can be hijacked on both iOS and Android. Without proper validation, attackers can intercept deep links and gain access to pet health data or perform actions on behalf of the user.
+
+**How to avoid:**
+- Never pass sensitive data (pet IDs, health record IDs) in deep link URLs
+- Use universal links (iOS) / App Links (Android) which have proper validation
+- Implement token-based deep link verification
+- Add PKCE for any OAuth flows triggered via deep links
+- Validate all incoming deep link data on the server side
+
+**Warning signs:**
+- Deep link URLs contain database IDs or sensitive identifiers
+- No universal links/App links configured, only custom URL schemes
+- Deep link handlers accept raw IDs without verification
+
+**Phase to address:**
+Phase 2 (Data Layer & Core Features) — Security must precede feature integration
+
+---
+
+### Pitfall 4: Chart/Graph Data Visualization Performance
+
+**What goes wrong:**
+Dashboard displays weight trends, activity graphs. Animations during chart rendering block the JS thread, causing dropped frames and unresponsive UI. Graph interactions feel sluggish.
+
+**Why it happens:**
+Charts using JavaScript-based rendering (via Animated API without native driver) compete with business logic for JS thread time. Re-rendering charts on data updates without proper memoization causes performance collapse.
+
+**How to avoid:**
+- Use native-driver animations (`useNativeDriver: true`) for chart animations
+- Implement `LayoutAnimation` for static chart updates instead of Animated API
+- Memoize chart components to prevent unnecessary re-renders
+- Consider SVG-based charts with native rendering (react-native-svg + victory-native)
+- Separate heavy chart data processing from UI updates with InteractionManager
+
+**Warning signs:**
+- Chart animations cause visible frame drops
+- JS thread FPS drops below 50 when charts update
+- Smooth 60fps in dev mode but poor performance in release
+
+**Phase to address:**
+Phase 3 (Dashboard & Visualization) — Charts are core differentiator
+
+---
+
+### Pitfall 5: Token-Based Auth with Cookie Issues
+
+**What goes wrong:**
+Login works initially but sessions expire unexpectedly. Refresh tokens don't work properly, users get logged out frequently. Cookie-based authentication behaves inconsistently between iOS and Android.
+
+**Why it happens:**
+React Native's fetch has known issues with `credentials: omit` and `redirect: manual` options. Cookie-based auth is "currently unstable" per React Native docs. Same-name headers on Android result in only latest header being present. iOS redirects with `Set-Cookie` don't set cookies properly.
+
+**How to avoid:**
+- Use token-based auth (JWT) stored securely in Keychain/EncryptedSharedPreferences
+- Avoid relying on cookie-based sessions in React Native
+- Implement proper token refresh logic with retry handling
+- Test auth flows on both platforms, not just iOS
+- Use axios or dedicated networking library with better auth support
+
+**Warning signs:**
+- Users reporting frequent unexpected logout
+- Auth works on iOS but fails on Android
+- Token refresh endpoint gets called repeatedly
+
+**Phase to address:**
+Phase 2 (Data Layer & Core Features) — Auth must be reliable
+
+---
+
+### Pitfall 6: Console.log Performance Drain in Production
+
+**What goes wrong:**
+App runs fine in development but becomes sluggish in production. Debugging libraries (redux-logger, axios interceptors) continue logging to console. Performance degrades significantly over time.
+
+**Why it happens:**
+Console statements execute even in bundled production builds. Debug libraries often include console.log calls that fire on every action. The JS thread bottleneck from excessive logging accumulates over time.
+
+**How to avoid:**
+```json
+// .babelrc
+{
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}
 ```
+- Install `babel-plugin-transform-remove-console` in production builds
+- Remove all console.* statements before bundling
+- Audit third-party libraries for logging behavior
+- Use proper logging libraries that respect log levels
+
+**Warning signs:**
+- Performance significantly better in dev than release
+- Bundle size increased by debug libraries
+- No console stripping in production builds
+
+**Phase to address:**
+Phase 1 (Foundation) — Performance fundamentals established early
+
+---
+
+### Pitfall 7: Neglecting Data Offline-First Architecture
+
+**What goes wrong:**
+Pet owners can't log weight/diet when offline (common in rural areas or basements). Data entered offline is lost when app closes. App becomes unusable without network connection.
+
+**Why it happens:**
+Health tracking apps need to work when connectivity is intermittent. Without offline-first design, users in poor connectivity areas abandon the app. Pet health logging needs to be immediate and persistent.
+
+**How to avoid:**
+- Implement local data persistence (SQLite, WatermelonDB) for health records
+- Queue API calls when offline, sync when connection restored
+- Use optimistic UI updates — show data saved locally immediately
+- Implement proper conflict resolution for sync scenarios
+- Test app in airplane mode regularly
+
+**Warning signs:**
+- Health data entry requires network to complete
+- No local storage implementation found
+- App shows error/failure when offline
+
+**Phase to address:**
+Phase 2 (Data Layer & Core Features) — Offline-first is critical for health tracking
+
+---
+
+### Pitfall 8: Image-Heavy UI Causing Memory Pressure
+
+**What goes wrong:**
+Pet profile screens with multiple photos, health report attachments. App crashes on lower-end devices or when scrolling through pet photo galleries. Memory warnings appear in production.
+
+**Why it happens:**
+Unoptimized images loaded at full resolution consume excessive memory. React Native Image component re-cropping on size animation is expensive. No image caching means network requests repeat. Memory leaks from image loading accumulate.
+
+**How to avoid:**
+- Use thumbnail images for lists, full resolution only on detail view
+- Implement image caching with @d11/react-native-fast-image or similar
+- Resize/compress images before storage (especially from camera)
+- Use `transform: [{scale}]` for zoom animations instead of resizing Image width/height
+- Enable `resizeMode: 'cover'` and preload images
+- Test on low-memory devices (1GB RAM)
+
+**Warning signs:**
+- App crashes on older Android devices
+- Memory warnings in production
+- Image loading causes visible lag
+
+**Phase to address:**
+Phase 3 (Dashboard & Visualization) — Media impacts health tracking UX
+
+---
+
+### Pitfall 9: Missing Input Validation on Health Data
+
+**What goes wrong:**
+Users can enter invalid data (negative weight, future dates for past events, non-numeric values). Bad data corrupts graphs and trend analysis. Health insights become meaningless.
+
+**Why it happens:**
+Form inputs lack proper validation. Number inputs accept any value. Date pickers allow nonsensical dates. No data sanitization before storage.
+
+**How to avoid:**
+- Validate all inputs at entry point (weight > 0, reasonable ranges for species)
+- Use controlled components with validation state
+- Implement date validation (no future dates for past health events)
+- Add visual feedback for invalid entries
+- Sanitize data before chart rendering
+
+**Warning signs:**
+- Weight graphs show impossible values
+- Users report "broken" charts
+- No validation errors visible during data entry
+
+**Phase to address:**
+Phase 2 (Data Layer & Core Features) — Data integrity is foundational
+
+---
+
+### Pitfall 10: Touch Target Size Violations
+
+**What goes wrong:**
+Users can't reliably tap buttons for pet health logging. Small touch targets on forms cause mis-taps. Accessibility issues, especially for older pet owners.
+
+**Why it happens:**
+Default button sizes too small. Form inputs clustered too closely. Touch areas don't extend beyond visible bounds (known React Native issue on Android: negative margin not supported).
+
+**How to avoid:**
+- Ensure minimum 44x44pt touch targets for all interactive elements
+- Use TouchableOpacity/TouchableHighlight with proper feedback
+- Space form elements adequately (minimum 8dp between targets)
+- Test with actual device, not just simulator
+- Provide accessible alternative (larger buttons option)
+
+**Warning signs:**
+- Users report "missed taps" in beta testing
+- Form submission fails due to wrong element activation
+- Accessibility audit fails on touch target sizes
+
+**Phase to address:**
+Phase 1 (Foundation) — UX fundamentals from the start
+
+---
+
+## Technical Debt Patterns
+
+| Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
+|----------|-------------------|----------------|-----------------|
+| Using AsyncStorage for user tokens | Quick auth implementation | Security vulnerability, token exposure | Never for auth |
+| Skipping FlatList optimization | Faster initial development | Unresponsive history log, user churn | Only for <20 items |
+| Hardcoded API endpoints | Simpler initial setup | No environment switching, production issues | Development only |
+| Skipping input validation | Faster form completion | Corrupted health data, meaningless insights | Never |
+| No offline support | Simpler architecture | App unusable offline, user abandonment | Only for demo/prototype |
+| Using anonymous renderItem | Less code initially | Performance collapse as list grows | Never in production |
+
+---
+
+## Integration Gotchas
+
+| Integration | Common Mistake | Correct Approach |
+|-------------|----------------|------------------|
+| React Navigation | Using JS-based stack instead of native-stack | Use @react-navigation/native-stack for performance; configure react-native-screens properly on Android |
+| Vet API integration | Passing sensitive IDs in URL params | Use POST for data fetching, implement server-side validation |
+| Calendar/Reminder integration | Deep link without validation | Use universal links, validate tokens server-side |
+| Image picker | Loading full-res images directly | Compress/resize before display, use thumbnails for lists |
+| Notification system | Not handling permission denial gracefully | Test permission flows, provide fallback UX |
+| Network requests | Not handling timeout properly | Implement retry with exponential backoff, show user feedback |
+
+---
+
+## Performance Traps
+
+| Trap | Symptoms | Prevention | When It Breaks |
+|------|----------|------------|----------------|
+| Development mode performance | App feels slow, stutters | Always test in release build | Production deployment |
+| Console logging in release | Gradual JS thread slowdown | Use babel-plugin-transform-remove-console | Production with debug libs |
+| Unoptimized FlatList | Blank areas during scroll, dropped frames | Implement getItemLayout, proper config | History log with >50 items |
+| Heavy chart re-renders | Chart animations block UI | Memoize, use native driver | Dashboard with multiple charts |
+| Image loading without caching | Memory pressure, repeated network calls | Implement FastImage, preload | Pet gallery with >20 photos |
+| State updates during animations | UI freezes momentarily | Wrap in InteractionManager or use LayoutAnimation | Any animated transitions |
+
+---
+
+## Security Mistakes
+
+| Mistake | Risk | Prevention |
+|---------|------|------------|
+| Storing auth tokens in AsyncStorage | Token theft via device access | Use Keychain (iOS) / EncryptedSharedPreferences (Android) |
+| Passing pet IDs in deep link URLs | Data interception, unauthorized access | Use universal links, token-based validation |
+| No HTTPS enforcement | Man-in-middle attacks on health data | Enable SSL pinning, reject cleartext |
+| Logging sensitive health data | Data exposure in crash reports | Sanitize logs, strip PII |
+| No input sanitization | Invalid health data corruption | Validate all inputs, sanitize before storage |
+| Skipping PKCE in OAuth | Authorization code interception | Always use PKCE with OAuth flows |
+
+---
+
+## UX Pitfalls
+
+| Pitfall | User Impact | Better Approach |
+|---------|-------------|----------------|
+| Small touch targets | Failed taps, frustration, abandoned logging | Minimum 44x44pt targets, adequate spacing |
+| No offline feedback | Users think data lost, don't trust app | Show "saved locally" indicator when offline |
+| Unclear date formats | Confusion about pet's health timeline | Use relative dates ("3 days ago") with absolute on detail |
+| Complex onboarding | Users drop before logging first pet | Simplified first pet setup, defer optional features |
+| No empty states | App looks broken when no data | Friendly illustrations, clear CTA to add first entry |
+| Missing loading states | App appears frozen during data fetch | Skeleton screens, progress indicators |
+| Inconsistent navigation | Can't find expected features | Follow platform conventions, bottom tabs for main sections |
+
+---
+
+## "Looks Done But Isn't" Checklist
+
+- [ ] **History Log:** FlatList renders but lacks getItemLayout — scrolling will lag with real data
+- [ ] **Dashboard:** Charts animate but use JS-driven animations — will drop frames on lower-end devices
+- [ ] **Auth:** Login works but tokens stored in AsyncStorage — vulnerable to token theft
+- [ ] **Data Entry:** Forms accept input but no validation — invalid weight/date data will corrupt charts
+- [ ] **Offline Mode:** App works but no local persistence — data lost when app closes
+- [ ] **Deep Links:** Pet profile opens via URL but contains raw ID — vulnerable to interception
+- [ ] **Images:** Pet photos display but load at full resolution — memory pressure on older devices
+- [ ] **Notifications:** Reminders fire but no permission handling — crashes on first launch for some users
+
+---
+
+## Pitfall-to-Phase Mapping
+
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| Sensitive data storage | Phase 2 | Confirm no AsyncStorage for health data |
+| FlatList performance | Phase 3 | Test scrolling with 100+ records |
+| Deep linking security | Phase 2 | Security audit before launch |
+| Chart performance | Phase 3 | Profile on mid-range device |
+| Token auth issues | Phase 2 | Test session persistence across app restart |
+| Console.log drain | Phase 1 | Verify babel config strips logs in release |
+| Offline-first data | Phase 2 | Test in airplane mode |
+| Image memory pressure | Phase 3 | Test on 1GB RAM device |
+| Input validation | Phase 2 | Attempt invalid data entry, verify rejection |
+| Touch target size | Phase 1 | Accessibility audit, physical device testing |
 
 ---
 
 ## Sources
 
-| Source | Confidence | Key Points |
-|--------|------------|------------|
-| Lancet Infectious Diseases (2026) - AI barriers in healthcare | HIGH | Data privacy, algorithmic bias, fragmented data ecosystems, regulatory gaps |
-| PubMed: AI in veterinary diagnostic imaging (2024) | HIGH | Perspectives and limitations of AI in vet imaging |
-| FDA AI/ML in animal health framework | MEDIUM | Regulatory considerations for veterinary AI |
-| Industry best practices for health AI | MEDIUM | Disclaimers, accuracy claims, user education requirements |
+- [React Native Security Documentation](https://reactnative.dev/docs/security) (Official, v0.85)
+- [React Native Performance Documentation](https://reactnative.dev/docs/performance) (Official, v0.85)
+- [React Native FlatList Optimization](https://reactnative.dev/docs/optimizing-flatlist-configuration) (Official, v0.85)
+- [React Native Networking](https://reactnative.dev/docs/network) (Official, v0.85)
+- [React Native Handling Touches](https://reactnative.dev/docs/handling-touches) (Official, v0.85)
+- [React Navigation Getting Started](https://reactnavigation.org/docs/getting-started/) (Community, v7.x)
 
 ---
-
-## Appendix: Korea-Specific Considerations (KVLG)
-
-For the Korean market, be aware of:
-
-1. **Personal Information Protection Act (PIPA)** — Pet health data may be considered sensitive personal information
-2. **Veterinary Medicine Act** — Only licensed vets can diagnose; AI analysis must not constitute diagnosis
-3. **Broadcasting-Communications Review Committee** — Health app claims may face review
-4. **App Store Korea requirements** — Health apps may require additional certifications
-
----
-
-*Last updated: 2026-04-15*
+*Pitfalls research for: Pet Health & Wellness Tracker*
+*Researched: 2026-04-16*
