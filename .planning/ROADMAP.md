@@ -35,9 +35,9 @@
 13. All card, metric, action button, and input form components render correctly
 
 **Plans:**
-- [ ] 01-01-PLAN.md — Authentication foundation + tab navigation visual feedback
-- [ ] 01-02-PLAN.md — Pet profile management (add/edit/view)
-- [ ] 01-03-PLAN.md — UI component verification + Dashboard/Profile implementation
+- [x] 01-01-PLAN.md — Authentication foundation + tab navigation visual feedback
+- [x] 01-02-PLAN.md — Pet profile management (add/edit/view)
+- [x] 01-03-PLAN.md — UI component verification + Dashboard/Profile implementation
 
 **Research Flags:**
 - None — standard React Native patterns
@@ -113,14 +113,14 @@ All 44 v1 requirements mapped to phases ✓
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | ✓ Complete |
+| AUTH-02 | Phase 1 | ✓ Complete |
+| AUTH-03 | Phase 1 | ✓ Complete |
+| AUTH-04 | Phase 1 | ✓ Complete |
 | AUTH-05 | Phase 2 | Pending |
-| PETP-01 | Phase 1 | Pending |
-| PETP-02 | Phase 1 | Pending |
-| PETP-03 | Phase 1 | Pending |
+| PETP-01 | Phase 1 | ✓ Complete |
+| PETP-02 | Phase 1 | ✓ Complete |
+| PETP-03 | Phase 1 | ✓ Complete |
 | PETP-04 | Phase 3 | Pending |
 | HLTH-01 | Phase 2 | Pending |
 | HLTH-02 | Phase 2 | Pending |
@@ -135,26 +135,26 @@ All 44 v1 requirements mapped to phases ✓
 | HIST-02 | Phase 3 | Pending |
 | HIST-03 | Phase 3 | Pending |
 | HIST-04 | Phase 3 | Pending |
-| DASH-01 | Phase 1 | Pending |
-| DASH-02 | Phase 1 | Pending |
-| DASH-03 | Phase 1 | Pending |
-| DASH-04 | Phase 1 | Pending |
-| DASH-05 | Phase 1 | Pending |
+| DASH-01 | Phase 1 | ✓ Complete |
+| DASH-02 | Phase 1 | ✓ Complete |
+| DASH-03 | Phase 1 | ✓ Complete |
+| DASH-04 | Phase 1 | ✓ Complete |
+| DASH-05 | Phase 1 | ✓ Complete |
 | SERV-01 | Phase 4 | Pending |
 | SERV-02 | Phase 4 | Pending |
 | SERV-03 | Phase 4 | Pending |
 | SERV-04 | Phase 4 | Pending |
-| PROF-01 | Phase 1 | Pending |
+| PROF-01 | Phase 1 | ✓ Complete |
 | PROF-02 | Phase 4 | Pending |
 | PROF-03 | Phase 4 | Pending |
-| UI-01 | Phase 1 | Pending |
-| UI-02 | Phase 1 | Pending |
-| UI-03 | Phase 1 | Pending |
+| UI-01 | Phase 1 | ✓ Complete |
+| UI-02 | Phase 1 | ✓ Complete |
+| UI-03 | Phase 1 | ✓ Complete |
 | UI-04 | Phase 3 | Pending |
-| UI-05 | Phase 1 | Pending |
-| UI-06 | Phase 1 | Pending |
+| UI-05 | Phase 1 | ✓ Complete |
+| UI-06 | Phase 1 | ✓ Complete |
 | TECH-01 | Phase 2 | Pending |
-| TECH-02 | Phase 1 | Pending |
+| TECH-02 | Phase 1 | ✓ Complete |
 | TECH-03 | Phase 2 | Pending |
 | TECH-04 | Phase 3 | Pending |
 
