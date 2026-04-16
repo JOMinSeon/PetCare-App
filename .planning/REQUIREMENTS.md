@@ -52,16 +52,16 @@
 
 ### Services
 
-- [ ] **SERV-01**: User can book vet appointments with date/time selection
-- [ ] **SERV-02**: User can view upcoming appointments
-- [ ] **SERV-03**: User receives push notifications for medication reminders
-- [ ] **SERV-04**: User can access health tips and educational content
+- [x] **SERV-01**: User can book vet appointments with date/time selection
+- [x] **SERV-02**: User can view upcoming appointments
+- [x] **SERV-03**: User receives push notifications for medication reminders
+- [x] **SERV-04**: User can access health tips and educational content
 
 ### Profile & Settings
 
 - [ ] **PROF-01**: User can manage account settings (email, password)
-- [ ] **PROF-02**: User can manage notification preferences
-- [ ] **PROF-03**: User can view payment/subscription history
+- [x] **PROF-02**: User can manage notification preferences
+- [x] **PROF-03**: User can view payment/subscription history
 
 ### UI Components
 
