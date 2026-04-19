@@ -35,6 +35,7 @@ model Pet {
   activities      Activity[]
   diets           Diet[]
   medicalRecords  MedicalRecord[]
+  alerts          Alert[]
 }
 
 model HealthRecord {
@@ -97,4 +98,16 @@ model Service {
   rating      Float?
   is24Hour    Boolean  @default(false)
   isEmergency Boolean  @default(false)
+}
+
+model Alert {
+  id             String   @id @default(uuid())
+  petId          String
+  symptomSummary String
+  riskScore      Int
+  riskLevel      String   // low, medium, high
+  recommendation String
+  isDismissed    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  pet            Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
 }
