@@ -47,7 +47,9 @@ export const useServicesStore = create<ServicesState>((set, get) => ({
   userLocation: null,
 
   // Actions
-  setServices: (services) => set({ services }),
+  setServices: (services) => set({ services: computeIsOpen(services) }),
+
+  setSelectedService: (service) => set({ selectedService: service ? computeIsOpen([service])[0] : null }),
 
   setSelectedService: (service) => set({ selectedService: service }),
 
@@ -110,3 +112,31 @@ export const useServicesStore = create<ServicesState>((set, get) => ({
     });
   },
 }));
+
+function computeIsOpen(services: Service[]): Service[] {
+  const now = new Date();
+  const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const currentDay = dayNames[now.getDay()];
+  const currentTime = now.getHours() * 60 + now.getMinutes();
+
+  return services.map((service) => {
+    if (service.is24Hour) {
+      return { ...service, isOpen: true };
+    }
+
+    const todayHours = service.openingHours?.[currentDay];
+    if (!todayHours) {
+      return { ...service, isOpen: false };
+    }
+
+    const [openH, openM] = todayHours.open.split(':').map(Number);
+    const [closeH, closeM] = todayHours.close.split(':').map(Number);
+    const openMinutes = openH * 60 + openM;
+    const closeMinutes = closeH * 60 + closeM;
+
+    return {
+      ...service,
+      isOpen: currentTime >= openMinutes && currentTime < closeMinutes,
+    };
+  });
+}

@@ -47,6 +47,7 @@ export interface Service {
   openingHours?: {
     [day: string]: { open: string; close: string } | null;
   };
+  isOpen?: boolean;
 }
 
 export interface ServicesResponse {

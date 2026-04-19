@@ -112,6 +112,13 @@ export function ServiceCard({
               {formatDistance(distance)} away
             </Text>
           </View>
+          {service.isOpen !== undefined && (
+            <View style={[styles.openStatus, service.isOpen ? styles.openStatusOpen : styles.openStatusClosed]}>
+              <Text style={[styles.openStatusText, service.isOpen ? styles.openTextOpen : styles.openTextClosed]}>
+                {service.isOpen ? '● Open' : '○ Closed'}
+              </Text>
+            </View>
+          )}
           <View style={styles.tagsContainer}>
             {service.is24Hour && (
               <View style={styles.tag}>
@@ -244,6 +251,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#374151',
+  },
+  openStatus: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  openStatusOpen: {
+    backgroundColor: '#D1FAE5',
+  },
+  openStatusClosed: {
+    backgroundColor: '#FEE2E2',
+  },
+  openStatusText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  openTextOpen: {
+    color: '#059669',
+  },
+  openTextClosed: {
+    color: '#DC2626',
   },
   tagsContainer: {
     flexDirection: 'row',
