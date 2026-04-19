@@ -62,8 +62,23 @@ export function DashboardScreen(): JSX.Element {
   };
 
   const handleQuickAction = (action: string) => {
-    // Stub navigation - will be wired to real screens in Phase 3
-    console.log(`Quick action pressed: ${action}`);
+    if (!selectedPet) return;
+
+    switch (action) {
+      case 'symptom':
+        navigation.navigate('SymptomLog', { petId: selectedPet.id });
+        break;
+      case 'activity':
+        navigation.navigate('ActivityLog', { petId: selectedPet.id });
+        break;
+      case 'diet':
+        navigation.navigate('DietLog', { petId: selectedPet.id });
+        break;
+      case 'emergency':
+        // Show emergency contact or dial
+        console.log('Emergency action');
+        break;
+    }
   };
 
   const handlePetSelect = (pet: Pet) => {
