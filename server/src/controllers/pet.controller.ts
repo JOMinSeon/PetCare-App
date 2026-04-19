@@ -62,8 +62,8 @@ export const createPet = async (req: AuthRequest, res: Response): Promise<void> 
       return;
     }
 
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-      res.status(400).json({ error: 'Pet name is required' });
+    if (!name || typeof name !== 'string' || name.trim().length === 0 || name.length > 100) {
+      res.status(400).json({ error: 'Pet name is required (max 100 characters)' });
       return;
     }
 
