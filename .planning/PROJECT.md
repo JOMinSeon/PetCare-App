@@ -2,11 +2,11 @@
 
 ## What This Is
 
-A mobile application that provides integrated pet health care services, allowing pet owners to monitor their pets' health data (activity, weight, diet, medical history) in one place and receive actionable health management guidance and services.
+A proactive pet healthcare platform that combines preventive health management and maximum convenience. The mobile app (React Native) connects to a separate backend (Node.js + PostgreSQL), enabling pet owners to track health scores, log symptoms, find nearby pet services, manage diet, and access digital pet IDs with medical history.
 
 ## Core Value
 
-Pet owners can confidently monitor and manage their companion animals' health through unified data tracking and proactive care recommendations.
+Pet owners can proactively manage their pets' health with AI-powered symptom analysis and timely veterinary connections, reducing emergency situations through early detection.
 
 ## Requirements
 
@@ -16,60 +16,48 @@ Pet owners can confidently monitor and manage their companion animals' health th
 
 ### Active
 
-- [ ] Dashboard with pet health summary and alerts
-- [ ] Data monitoring with graphs and trend analysis (weight, activity)
-- [ ] History log for activities, diet, medical records, checkups
-- [ ] Service/community features (vet appointments, consultations, product purchasing)
-- [ ] User and pet profile management
-- [ ] Date range filtering for data analysis (7 days to 1 year)
-- [ ] Reusable UI components: Card, Metric Display, Action Button, Chart/Graph, Input Form
+- [ ] Pet registration with profile management
+- [ ] Health score calculation (age, activity, diet)
+- [ ] Symptom logging with date-based records
+- [ ] AI-powered symptom pattern analysis with risk assessment
+- [ ] Activity tracking (steps, duration)
+- [ ] Diet planning with calorie/nutrient tracking
+- [ ] Digital Pet ID with QR code
+- [ ] Medical history (vaccinations, checkups)
+- [ ] Nearby pet services map with filters
+- [ ] Quick action buttons for core features
 
 ### Out of Scope
 
-- Real-time chat with veterinarians — deferred to v2
-- Video consultation — high complexity, not core to health tracking value
-- Multi-pet management with advanced billing — single pet focus for v1
-- Social features beyond service/community — not differentiated
+- Real-time chat with veterinarians — defer to future (requires 24/7 staffing)
+- Video consultations — infrastructure cost too high for v1
+- Pet social community — not core to health management value
+- Marketplace/e-commerce for pet supplies — can integrate later, not differentiator
 
 ## Context
 
-**Technology:** React Native (as specified by user)
-
-**Target Users:** Pet owners who are proactive about their companion animals' health and wellness
-
-**Competitive Focus:** Unlike generic pet apps, this emphasizes proactive health monitoring with data visualization and actionable insights
+- **Frontend:** React Native CLI (not Expo) for full native module control
+- **Backend:** Separate Node.js/Express server with PostgreSQL database
+- **Auth:** Firebase Auth for user authentication
+- **State:** Zustand for React Native state management
+- **Design:** "Clinical Sanctuary" concept — professional yet warm aesthetic
+- **Users:** Korean pet owners who want preventive care, not just reactive treatment
 
 ## Constraints
 
-- **Platform**: React Native mobile app
-- **Design Language**: Clean, minimalist, professional; teal/green primary with orange accents
-- **Typography**: Sans-serif fonts (Pretendard, Noto Sans KR for Korean support)
+- **Tech Stack:** React Native CLI + Node.js backend + PostgreSQL — user specified separate implementation
+- **Platform:** Mobile-first (iOS/Android), maps require GPS
+- **Data Sensitivity:** Medical records require secure storage and encryption
+- **Offline:** App should cache critical data for offline viewing
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| React Native | Cross-platform efficiency for mobile-first pet health app | — Pending |
-| Bottom tab navigation | Industry standard for mobile apps with 4-5 main sections | — Pending |
-| Teal/green color palette | Conveys cleanliness, nature, trust for pet care | — Pending |
+| Separate backend vs BaaS | User requirement — full control over business logic | — Pending |
+| React Native CLI vs Expo | Need native modules for maps/GPS/QR code | — Pending |
+| Firebase Auth vs custom auth | Faster implementation, proven security | — Pending |
+| Teal primary color palette | Medical professionalism with warmth | — Pending |
 
 ---
-
-*Last updated: 2026-04-16 after initialization*
-
-## Evolution
-
-This document evolves at phase transitions and milestone boundaries.
-
-**After each phase transition** (via `/gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `/gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
+*Last updated: 2026-04-19 after initialization*

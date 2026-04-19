@@ -1,14 +1,18 @@
 {
   "mode": "yolo",
-  "granularity": "coarse",
+  "granularity": "standard",
   "parallelization": true,
   "commit_docs": true,
   "model_profile": "balanced",
   "workflow": {
     "research": true,
-    "plan_check": true,
-    "verifier": true,
-    "nyquist_validation": false,
+    "plan_check": false,
+    "verifier": false,
+    "nyquist_validation": true,
     "auto_advance": true
+  },
+  "planning": {
+    "sub_repos": [],
+    "commit_docs": true
   }
 }

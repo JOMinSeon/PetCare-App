@@ -1,103 +1,110 @@
 # Stack Research
 
-**Domain:** Pet Health & Wellness Tracker
-**Researched:** 2026-04-16
-**Confidence:** MEDIUM
+**Domain:** Pet Healthcare Mobile App + Backend API
+**Researched:** 2026-04-19
+**Confidence:** HIGH
 
 ## Recommended Stack
 
-### Core Technologies
+### Mobile App (React Native)
 
 | Technology | Version | Purpose | Why Recommended |
 |------------|---------|---------|-----------------|
-| React Native | 0.85.x | Mobile framework | User-specified; cross-platform efficiency |
-| TypeScript | 5.x | Type safety | Catches errors at compile time, better DX |
-| Expo | SDK 52+ | Development workflow | Faster dev cycles, managed builds, excellent docs |
-| React Navigation | 7.x | Navigation | Community standard for RN navigation |
+| React Native CLI | 0.76.x | Cross-platform mobile UI | Native module access for maps/QR |
+| Zustand | ^4.5 | State management | Lightweight, TypeScript support |
+| React Navigation | ^6 | Navigation | Industry standard for RN |
+| victory-native | ^37 | Charts | SVG-based, customizable |
+| react-native-svg | ^15 | Chart dependency | Lightweight SVG rendering |
+| react-native-maps | ^1.8 | GPS/Map | Full native Google/Apple maps |
+| react-native-qrcode-scanner | ^2 | QR code | Pet ID functionality |
+| firebase | ^10 | Authentication | Secure auth, proven at scale |
+
+### Backend API
+
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| Node.js | 20 LTS | Runtime | Stable, large ecosystem |
+| Express | ^4.18 | API framework | Minimal, flexible |
+| PostgreSQL | 16 | Primary database | Reliable, JSON support |
+| Prisma | ^5.5 | ORM | Type-safe, migrations |
+| JSON Web Token | — | Auth tokens | Stateless auth |
+| bcrypt | ^5 | Password hashing | Secure, proven |
 
 ### Supporting Libraries
 
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
-| @react-native-async-storage/async-storage | 2.x | Local data persistence | Pet profiles, health logs, settings |
-| react-native-chart-kit | 6.x | Data visualization | Weight/activity graphs on dashboard |
-| expo-secure-store | ~ | Secure token storage | Auth tokens, sensitive data |
-| date-fns | 3.x | Date manipulation | History log filtering, date ranges |
-| zustand | 5.x | State management | Lightweight alternative to Context for global state |
-| expo-notifications | ~ | Push notifications | Medication reminders, vet appointments |
+| date-fns | ^3 | Date formatting | All date operations |
+| zod | ^3 | Validation | API request validation |
+| cors | ^2.18 | CORS handling | Development middleware |
+| helmet | ^7 | Security headers | Production API hardening |
 
 ### Development Tools
 
 | Tool | Purpose | Notes |
 |------|---------|-------|
-| Expo Doctor | Validate setup | Diagnose environment issues |
-| ESLint + Prettier | Code quality | Pre-configured in Expo |
-| Jest + React Native Testing Library | Unit/component testing | First-party RN testing solution |
+| VS Code + extensions | IDE | RN debugging support |
+| Postman / Insomnia | API testing | Endpoint validation |
+| pgAdmin | DB management | Visual PostgreSQL client |
+| Firebase Console | Auth monitoring | User management |
 
 ## Installation
 
 ```bash
-# Core (using Expo)
-npx create-expo-app@latest VitalPaw --template blank-typescript
+# Mobile App
+npx react-native@latest init VitalPawProactive --version 0.76.5
+npm install zustand @react-navigation/native @react-navigation/bottom-tabs
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler
+npm install react-native-svg victory-native firebase
+npm install react-native-maps react-native-qrcode-scanner
+npm install date-fns
 
-# Navigation
-npx expo install @react-navigation/native @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
-
-# State & Data
-npm install @react-native-async-storage/async-storage zustand date-fns
-
-# Charts
-npx expo install react-native-chart-kit react-native-svg
-
-# Secure Storage
-npx expo install expo-secure-store
-
-# Notifications
-npx expo install expo-notifications
+# Backend API
+mkdir vitalpaw-api && cd vitalpaw-api
+npm init -y
+npm install express prisma @prisma/client
+npm install -D typescript @types/express @types/node ts-node
+npx prisma init
 ```
 
 ## Alternatives Considered
 
 | Recommended | Alternative | When to Use Alternative |
 |-------------|-------------|-------------------------|
-| Expo | Bare React Native CLI | Need custom native modules not in Expo |
-| Zustand | Context + useReducer | Complex nested state requiring redux-like patterns |
-| AsyncStorage | WatermelonDB / SQLite | Need for complex queries or larger datasets |
+| React Native CLI | Expo | If no native modules needed |
+| Zustand | Redux Toolkit | If complex global state |
+| Prisma | TypeORM / Knex | Type safety priority |
+| PostgreSQL | MongoDB | If schema flexibility needed |
 
 ## What NOT to Use
 
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
-| class components | Deprecated, verbose | Functional components with hooks |
-| Legacy Navigation (v5) | Community support shifting to v6+ | React Navigation v7 |
-| react-native-firebase (older) | Complexity, native setup burden | Expo-compatible alternatives |
-| Console.log in production | Performance degradation | expo-build-properties minification |
+| Expo (for this project) | Need native modules for maps/QR/GPS | React Native CLI |
+| SQLite | Not for production scale | PostgreSQL |
+| Realm | Complex setup, sync issues | PostgreSQL with Prisma |
 
 ## Stack Patterns by Variant
 
-**If hardware-optional (phone-based tracking):**
-- Focus on manual data entry UI
-- Use phone sensors sparingly (optional step counting)
+**If iOS-only:**
+- Use CocoaPods for native dependencies
+- Apple Maps can replace Google Maps
 
-**If hardware-required (wearable integration):**
-- Plan for Bluetooth/BLE integration
-- Consider background sync services
+**If maps performance critical:**
+- Consider react-native-mapbox-gl instead
+- More control over tile loading
 
 ## Version Compatibility
 
 | Package A | Compatible With | Notes |
 |-----------|-----------------|-------|
-| Expo SDK 52 | React Native 0.76+ | Auto-matching |
-| React Navigation 7.x | Expo SDK 50+ | Check peer dependencies |
-| AsyncStorage 2.x | Node 18+, RN 0.76+ | Latest version recommended |
+| React Native 0.76.x | Node.js 20 LTS | Native module support |
+| Prisma 5.x | PostgreSQL 16 | Full feature support |
+| Firebase 10.x | React Native 0.76 | Auth works with new arch |
 
 ## Sources
 
-- React Native Official Docs (https://reactnative.dev/docs/getting-started)
-- Expo Documentation (https://docs.expo.dev)
-- React Navigation Docs (https://reactnavigation.org/docs/getting-started)
-- React Native Community Packages (https://reactnative.directory)
-
----
-*Stack research for: Pet Health & Wellness Tracker*
-*Researched: 2026-04-16*
+- React Native official docs (latest)
+- Prisma documentation
+- Express.js best practices
+- Firebase React Native setup guides

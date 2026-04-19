@@ -1,168 +1,172 @@
 # Requirements: VitalPaw Proactive
 
-**Defined:** 2026-04-16
-**Core Value:** Pet owners can confidently monitor and manage their companion animals' health through unified data tracking and proactive care recommendations.
+**Defined:** 2026-04-19
+**Core Value:** Pet owners can proactively manage their pets' health with AI-powered symptom analysis and timely veterinary connections
 
 ## v1 Requirements
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can create account with email and password
-- [ ] **AUTH-02**: User receives email verification after signup
-- [ ] **AUTH-03**: User can log in and stay logged in across sessions
-- [ ] **AUTH-04**: User can log out from any page
-- [ ] **AUTH-05**: User session persists securely using Keychain/Expo Secure Store
+- [ ] **AUTH-01**: User can sign up with email and password
+- [ ] **AUTH-02**: User can log in with email/password
+- [ ] **AUTH-03**: User session persists across app restarts
+- [ ] **AUTH-04**: User can log out from any screen
+- [ ] **AUTH-05**: Firebase ID token exchanged for backend JWT on login
 
 ### Pet Profiles
 
-- [ ] **PETP-01**: User can add a pet with name, species, breed, birthdate, weight
-- [ ] **PETP-02**: User can edit existing pet profile information
-- [ ] **PETP-03**: User can view pet profile summary on dashboard
-- [x] **PETP-04**: User can upload pet photo
+- [ ] **PET-01**: User can add a new pet (name, species, breed, birth_date, weight, photo)
+- [ ] **PET-02**: User can view list of their pets
+- [ ] **PET-03**: User can edit pet profile information
+- [ ] **PET-04**: User can delete a pet profile
+- [ ] **PET-05**: Pet profile displays species-appropriate icon
 
-### Health Tracking
+### Health Score
 
-- [ ] **HLTH-01**: User can log weight entries with date and value
-- [ ] **HLTH-02**: User can log activity entries (type, duration, intensity)
-- [ ] **HLTH-03**: User can set medication reminders with frequency
-- [ ] **HLTH-04**: User can log vaccination records with date and vaccine type
-- [ ] **HLTH-05**: User can view health history timeline
+- [ ] **HLTH-01**: Health score calculated from age, activity, diet factors
+- [ ] **HLTH-02**: Health score displayed as numeric value (0-100)
+- [ ] **HLTH-03**: Health score breakdown shown to user (what factors contribute)
+- [ ] **HLTH-04**: Score updates when new data logged
 
-### Data Visualization
+### Symptom Tracking
 
-- [x] **VIS-01**: User can view weight trend chart on dashboard
-- [x] **VIS-02**: User can view activity summary chart on dashboard
-- [x] **VIS-03**: User can filter data by date range (7 days to 1 year)
-- [x] **VIS-04**: Charts show target lines and normal range shading
+- [ ] **SYMP-01**: User can log symptom with date and severity (mild/moderate/severe)
+- [ ] **SYMP-02**: User can view symptom history by date
+- [ ] **SYMP-03**: User can edit existing symptom records
+- [ ] **SYMP-04**: User can delete symptom records
+- [ ] **SYMP-05**: AI analyzes symptom patterns and provides risk assessment
+- [ ] **SYMP-06**: High-risk patterns trigger alert recommending vet consultation
 
-### History Log
+### Activity Tracking
 
-- [x] **HIST-01**: User can view chronological feed of all health entries
-- [x] **HIST-02**: User can filter history by entry type (weight, activity, medication, vaccination)
-- [x] **HIST-03**: User can search history by date or keyword
-- [x] **HIST-04**: Each history entry shows date, type icon, title, and brief summary
+- [ ] **ACT-01**: User can log daily steps count
+- [ ] **ACT-02**: User can log activity duration (minutes)
+- [ ] **ACT-03**: Activity data displayed in line chart (7-day view)
+- [ ] **ACT-04**: Activity goal progress shown (percentage of daily target)
+
+### Diet Planning
+
+- [ ] **DIET-01**: User can log meals (food name, amount in grams, calories)
+- [ ] **DIET-02**: Daily calorie intake displayed vs recommended
+- [ ] **DIET-03**: Macronutrient breakdown shown (protein, fat, carbs)
+- [ ] **DIET-04**: Diet chart shows weekly nutrient trends
+
+### Medical Records
+
+- [ ] **MED-01**: User can add vaccination records (name, date, next due date)
+- [ ] **MED-02**: User can add checkup records (date, hospital, summary)
+- [ ] **MED-03**: Medical records displayed as cards grouped by type
+- [ ] **MED-04**: Upcoming vaccinations shown in dashboard reminders
+
+### Digital Pet ID
+
+- [ ] **ID-01**: Pet profile generates unique QR code
+- [ ] **ID-02**: QR code contains pet ID and owner contact info
+- [ ] **ID-03**: Digital ID card shows essential info (name, species, weight, age)
+- [ ] **ID-04**: Emergency contact phone number accessible from ID card
+
+### Services Map
+
+- [ ] **MAP-01**: Map displays nearby pet services (veterinaries, pet stores)
+- [ ] **MAP-02**: User can filter by service type
+- [ ] **MAP-03**: User can filter by "24-hour" availability
+- [ ] **MAP-04**: User can filter by "emergency service" availability
+- [ ] **MAP-05**: Service cards show distance, rating, open/closed status
+- [ ] **MAP-06**: User can call service directly from card
+- [ ] **MAP-07**: User can open navigation to service location
 
 ### Dashboard
 
-- [ ] **DASH-01**: Dashboard displays pet greeting with status summary
-- [ ] **DASH-02**: Dashboard shows top 3-4 key metrics (weight, activity, condition)
-- [ ] **DASH-03**: Dashboard shows alert cards for important notifications
-- [ ] **DASH-04**: Dashboard provides quick action buttons for common tasks
-- [ ] **DASH-05**: Dashboard shows recent activity feed
+- [ ] **DASH-01**: Dashboard shows health score prominently
+- [ ] **DASH-02**: Dashboard shows upcoming care reminders
+- [ ] **DASH-03**: Quick action buttons for: Symptom Log, Activity, Diet, Emergency
+- [ ] **DASH-04**: Recent activity feed visible on dashboard
 
-### Services
+### Notifications
 
-- [x] **SERV-01**: User can book vet appointments with date/time selection
-- [x] **SERV-02**: User can view upcoming appointments
-- [x] **SERV-03**: User receives push notifications for medication reminders
-- [x] **SERV-04**: User can access health tips and educational content
-
-### Profile & Settings
-
-- [ ] **PROF-01**: User can manage account settings (email, password)
-- [x] **PROF-02**: User can manage notification preferences
-- [x] **PROF-03**: User can view payment/subscription history
-
-### UI Components
-
-- [ ] **UI-01**: Card component for grouping related information
-- [ ] **UI-02**: Metric Display component for single-value emphasis
-- [ ] **UI-03**: Action Button component (Primary/Secondary styles)
-- [x] **UI-04**: Chart/Graph component with date filtering
-- [ ] **UI-05**: Input Form components (date picker, dropdown, numeric input)
-- [ ] **UI-06**: Tab navigation with visual feedback (underline animation, color change)
-
-### Technical
-
-- [ ] **TECH-01**: App works offline with local data persistence
-- [ ] **TECH-02**: Console.log stripped from production builds
-- [ ] **TECH-03**: Secure storage for sensitive data (tokens, health records)
-- [x] **TECH-04**: FlatList optimized with getItemLayout and memoization
+- [ ] **NOTE-01**: App sends reminder for upcoming vaccinations
+- [ ] **NOTE-02**: App alerts user when symptom pattern indicates high risk
+- [ ] **NOTE-03**: User can view notification history
 
 ## v2 Requirements
 
 ### Advanced Features
 
-- **GPS tracking and virtual fences** — Requires hardware integration
-- **Hardware/wearable device integration** — Step counting, sleep monitoring
-- **Real-time vet video consultation** — High complexity, liability concerns
-- **Multi-pet household management** — Single pet focus for v1
-- **Family sharing** — Allow multiple family members to view/edit pet data
-
-### Extended Services
-
-- **Vet record export (PDF)** — Share records with different vets
-- **Sleep monitoring** — If wearable integration added
-- **Stress monitoring** — If wearable integration added
-- **Health alerts with AI insights** — Proactive anomaly detection
+- **ADV-01**: Push notifications for medication reminders
+- **ADV-02**: Personalized diet recommendations based on health issues
+- **ADV-03**: Community features (local walking groups)
+- **ADV-04**: Veterinarian chat (async messaging)
+- **ADV-05**: Insurance product recommendations based on health data
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Real-time vet video chat | High complexity, liability concerns, not core to health tracking value |
-| Auto-diagnosis | Liability issues, requires medical professional involvement |
-| Social features (pet profiles, followers) | Distracts from core health tracking value |
-| Multi-pet management advanced billing | Single pet focus for v1 |
-| GPS tracking without hardware | Requires wearables or phone GPS permission flow |
-| Hardware wearable integration | V2+ feature, depends on ecosystem partnerships |
+| Video consultations | Infrastructure cost too high for v1 |
+| Real-time vet chat | Requires 24/7 staffing, defer to future |
+| Social media feed | Not core to health management value |
+| Pet supply marketplace | Scope creep, can integrate later |
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
 | AUTH-05 | Phase 2 | Pending |
-| PETP-01 | Phase 1 | Pending |
-| PETP-02 | Phase 1 | Pending |
-| PETP-03 | Phase 1 | Pending |
-| PETP-04 | Phase 3 | Complete |
-| HLTH-01 | Phase 2 | Pending |
-| HLTH-02 | Phase 2 | Pending |
-| HLTH-03 | Phase 2 | Pending |
-| HLTH-04 | Phase 2 | Pending |
-| HLTH-05 | Phase 2 | Pending |
-| VIS-01 | Phase 3 | Complete |
-| VIS-02 | Phase 3 | Complete |
-| VIS-03 | Phase 3 | Complete |
-| VIS-04 | Phase 3 | Complete |
-| HIST-01 | Phase 3 | Complete |
-| HIST-02 | Phase 3 | Complete |
-| HIST-03 | Phase 3 | Complete |
-| HIST-04 | Phase 3 | Complete |
-| DASH-01 | Phase 1 | Pending |
-| DASH-02 | Phase 1 | Pending |
-| DASH-03 | Phase 1 | Pending |
-| DASH-04 | Phase 1 | Pending |
-| DASH-05 | Phase 1 | Pending |
-| SERV-01 | Phase 4 | Pending |
-| SERV-02 | Phase 4 | Pending |
-| SERV-03 | Phase 4 | Pending |
-| SERV-04 | Phase 4 | Pending |
-| PROF-01 | Phase 1 | Pending |
-| PROF-02 | Phase 4 | Pending |
-| PROF-03 | Phase 4 | Pending |
-| UI-01 | Phase 1 | Pending |
-| UI-02 | Phase 1 | Pending |
-| UI-03 | Phase 1 | Pending |
-| UI-04 | Phase 3 | Complete |
-| UI-05 | Phase 1 | Pending |
-| UI-06 | Phase 1 | Pending |
-| TECH-01 | Phase 2 | Pending |
-| TECH-02 | Phase 1 | Pending |
-| TECH-03 | Phase 2 | Pending |
-| TECH-04 | Phase 3 | Complete |
+| PET-01 | Phase 2 | Pending |
+| PET-02 | Phase 2 | Pending |
+| PET-03 | Phase 2 | Pending |
+| PET-04 | Phase 2 | Pending |
+| PET-05 | Phase 2 | Pending |
+| DASH-01 | Phase 2 | Pending |
+| HLTH-01 | Phase 3 | Pending |
+| HLTH-02 | Phase 3 | Pending |
+| HLTH-03 | Phase 3 | Pending |
+| HLTH-04 | Phase 3 | Pending |
+| SYMP-01 | Phase 3 | Pending |
+| SYMP-02 | Phase 3 | Pending |
+| SYMP-03 | Phase 3 | Pending |
+| SYMP-04 | Phase 3 | Pending |
+| SYMP-05 | Phase 3 | Pending |
+| SYMP-06 | Phase 3 | Pending |
+| ACT-01 | Phase 3 | Pending |
+| ACT-02 | Phase 3 | Pending |
+| ACT-03 | Phase 3 | Pending |
+| ACT-04 | Phase 3 | Pending |
+| DIET-01 | Phase 3 | Pending |
+| DIET-02 | Phase 3 | Pending |
+| DIET-03 | Phase 3 | Pending |
+| DIET-04 | Phase 3 | Pending |
+| DASH-02 | Phase 3 | Pending |
+| DASH-03 | Phase 3 | Pending |
+| DASH-04 | Phase 3 | Pending |
+| NOTE-02 | Phase 3 | Pending |
+| MAP-01 | Phase 4 | Pending |
+| MAP-02 | Phase 4 | Pending |
+| MAP-03 | Phase 4 | Pending |
+| MAP-04 | Phase 4 | Pending |
+| MAP-05 | Phase 4 | Pending |
+| MAP-06 | Phase 4 | Pending |
+| MAP-07 | Phase 4 | Pending |
+| MED-01 | Phase 5 | Pending |
+| MED-02 | Phase 5 | Pending |
+| MED-03 | Phase 5 | Pending |
+| MED-04 | Phase 5 | Pending |
+| ID-01 | Phase 5 | Pending |
+| ID-02 | Phase 5 | Pending |
+| ID-03 | Phase 5 | Pending |
+| ID-04 | Phase 5 | Pending |
+| NOTE-01 | Phase 6 | Pending |
+| NOTE-03 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 44 total
-- Mapped to phases: 44
+- v1 requirements: 50 total
+- Mapped to phases: 50
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-04-16*
-*Last updated: 2026-04-16 after roadmap creation*
+*Requirements defined: 2026-04-19*
+*Last updated: 2026-04-19 after roadmap creation*

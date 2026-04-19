@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "VitalPaw Proactive",
+    "slug": "vitalpaw-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0D6E6E"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitalpaw.app"
+    },
+    "android": {
+      "package": "com.vitalpaw.app"
+    },
+    "web": {
+      "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4b8db89b-9806-48b5-a8de-3dbe6f2b0d22"
+      }
+    },
+    "owner": "jominseong",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/4b8db89b-9806-48b5-a8de-3dbe6f2b0d22"
+    }
+  }
+}
