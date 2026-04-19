@@ -1,0 +1,100 @@
+// Prisma schema for VitalPaw Proactive
+// PostgreSQL 16 database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  firebaseUid  String   @unique
+  email        String   @unique
+  createdAt    DateTime @default(now())
+  pets         Pet[]
+}
+
+model Pet {
+  id              String    @id @default(uuid())
+  name            String
+  species         String
+  breed           String?
+  birthDate       DateTime?
+  weight          Float?
+  photoUrl        String?
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  healthRecord    HealthRecord?
+  symptoms        Symptom[]
+  activities      Activity[]
+  diets           Diet[]
+  medicalRecords  MedicalRecord[]
+}
+
+model HealthRecord {
+  id           String   @id @default(uuid())
+  score        Int
+  factors      Json     // { age: number, activity: number, diet: number }
+  petId        String   @unique
+  pet          Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  calculatedAt DateTime @default(now())
+}
+
+model Symptom {
+  id          String   @id @default(uuid())
+  description String
+  severity    String   // mild, moderate, severe
+  date        DateTime
+  petId       String
+  pet         Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id              String   @id @default(uuid())
+  steps           Int?
+  durationMinutes Int?
+  date            DateTime
+  petId           String
+  pet             Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+}
+
+model Diet {
+  id          String   @id @default(uuid())
+  foodName    String
+  amountGrams Float
+  calories    Int
+  date        DateTime
+  petId       String
+  pet         Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+}
+
+model MedicalRecord {
+  id          String    @id @default(uuid())
+  type        String    // vaccination, checkup
+  name        String
+  date        DateTime
+  nextDueDate DateTime?
+  hospital    String?
+  summary     String?
+  petId       String
+  pet         Pet       @relation(fields: [petId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  type        String   // vet, pet_store, groomer
+  address     String
+  latitude    Float
+  longitude   Float
+  phone       String?
+  rating      Float?
+  is24Hour    Boolean  @default(false)
+  isEmergency Boolean  @default(false)
+}
