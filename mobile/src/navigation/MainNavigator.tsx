@@ -3,6 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
+import { PetListScreen } from '../screens/pets/PetListScreen';
+import { PetDetailScreen } from '../screens/pets/PetDetailScreen';
+import { AddPetScreen } from '../screens/pets/AddPetScreen';
+import { EditPetScreen } from '../screens/pets/EditPetScreen';
 
 // Placeholder screens - will be implemented in later phases
 function DashboardScreen(): JSX.Element {
@@ -27,17 +31,6 @@ function DashboardScreen(): JSX.Element {
   );
 }
 
-function PetsScreen(): JSX.Element {
-  return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>My Pets</Text>
-      <Text style={styles.placeholderText}>
-        Pet management will be implemented in Phase 2 Plan 02.
-      </Text>
-    </View>
-  );
-}
-
 function SettingsScreen(): JSX.Element {
   const { logout } = useAuth();
 
@@ -55,6 +48,40 @@ function SettingsScreen(): JSX.Element {
 }
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function PetsStack(): JSX.Element {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: '#00897B' },
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="PetList"
+        component={PetListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PetDetail"
+        component={PetDetailScreen}
+        options={{ title: 'Pet Profile' }}
+      />
+      <Stack.Screen
+        name="AddPet"
+        component={AddPetScreen}
+        options={{ title: 'Add Pet' }}
+      />
+      <Stack.Screen
+        name="EditPet"
+        component={EditPetScreen}
+        options={{ title: 'Edit Pet' }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export type MainTabParamList = {
   DashboardTab: undefined;
@@ -102,7 +129,7 @@ export function MainNavigator(): JSX.Element {
       />
       <Tab.Screen
         name="PetsTab"
-        component={PetsScreen}
+        component={PetsStack}
         options={{ tabBarLabel: 'Pets' }}
       />
       <Tab.Screen
