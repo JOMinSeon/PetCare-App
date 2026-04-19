@@ -7,36 +7,14 @@ import { PetListScreen } from '../screens/pets/PetListScreen';
 import { PetDetailScreen } from '../screens/pets/PetDetailScreen';
 import { AddPetScreen } from '../screens/pets/AddPetScreen';
 import { EditPetScreen } from '../screens/pets/EditPetScreen';
-
-// Placeholder screens - will be implemented in later phases
-function DashboardScreen(): JSX.Element {
-  const { logout } = useAuth();
-
-  return (
-    <View style={styles.screen}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>🐾</Text>
-        <Text style={styles.title}>VitalPaw</Text>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.welcomeText}>Welcome to your pet health dashboard!</Text>
-        <Text style={styles.placeholderText}>
-          Dashboard features will be implemented in Phase 3.
-        </Text>
-      </View>
-      <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-        <Text style={styles.logoutButtonText}>Sign Out</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 
 function SettingsScreen(): JSX.Element {
   const { logout } = useAuth();
 
   return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>Settings</Text>
+    <View style={styles.settingsContainer}>
+      <Text style={styles.settingsTitle}>Settings</Text>
       <Text style={styles.placeholderText}>
         Settings will be implemented in later phases.
       </Text>
@@ -142,38 +120,17 @@ export function MainNavigator(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  settingsContainer: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
+    paddingTop: 60,
   },
-  header: {
-    alignItems: 'center',
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  logo: {
-    fontSize: 36,
-    marginBottom: 4,
-  },
-  title: {
+  settingsTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#008B8B',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  welcomeText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 12,
-    textAlign: 'center',
+    marginBottom: 20,
   },
   placeholderText: {
     fontSize: 14,
