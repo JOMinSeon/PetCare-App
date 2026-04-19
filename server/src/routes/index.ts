@@ -7,6 +7,7 @@ import symptomRoutes from './symptom.routes.js';
 import activityRoutes from './activity.routes.js';
 import dietRoutes from './diet.routes.js';
 import serviceRoutes from './service.routes.js';
+import medicalRecordRoutes from './medicalRecord.routes.js';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use('/', symptomRoutes);
 router.use('/', activityRoutes);
 router.use('/', dietRoutes);
 router.use('/services', serviceRoutes);
+router.use('/', medicalRecordRoutes);
 
 export default router;
