@@ -1,26 +1,45 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useCallback } from 'react';
+import { View, Text, StyleSheet, useFocusEffect } from 'react-native';
+import { useHealthStore } from '../stores/healthStore';
+import { getFactorColor, getScoreColor, getScoreLabel } from '../utils/healthCalculator';
+
+interface HealthFactor {
+  name: string;
+  value: number;
+  weight: number;
+  contribution: number;
+  rawValue?: string;
+}
 
 interface HealthScoreCardProps {
-  score: number;
+  petId: string;
   petName: string;
+  score?: number;
+  factors?: HealthFactor[];
   lastUpdated?: string;
 }
 
-export function HealthScoreCard({ score, petName, lastUpdated }: HealthScoreCardProps): JSX.Element {
-  const getScoreColor = (value: number): string => {
-    if (value >= 80) return '#22c55e'; // Green
-    if (value >= 60) return '#f59e0b'; // Amber
-    if (value >= 40) return '#f97316'; // Orange
-    return '#ef4444'; // Red
-  };
+export function HealthScoreCard({
+  petId,
+  petName,
+  score: propScore,
+  factors: propFactors,
+  lastUpdated: propLastUpdated,
+}: HealthScoreCardProps): JSX.Element {
+  const { healthScore, fetchHealthScore, isLoading } = useHealthStore();
 
-  const getScoreLabel = (value: number): string => {
-    if (value >= 80) return 'Excellent';
-    if (value >= 60) return 'Good';
-    if (value >= 40) return 'Fair';
-    return 'Needs Attention';
-  };
+  // Auto-refresh health score when screen comes into focus (HLTH-04)
+  useFocusEffect(
+    useCallback(() => {
+      if (petId) {
+        fetchHealthScore(petId);
+      }
+    }, [petId, fetchHealthScore])
+  );
+
+  const score = propScore ?? healthScore?.score ?? 0;
+  const factors = propFactors ?? healthScore?.factors ?? [];
+  const lastUpdated = propLastUpdated ?? healthScore?.lastUpdated;
 
   const scoreColor = getScoreColor(score);
   const scoreLabel = getScoreLabel(score);
@@ -60,9 +79,60 @@ export function HealthScoreCard({ score, petName, lastUpdated }: HealthScoreCard
         </View>
       </View>
 
+      {/* Factor Breakdown Section (HLTH-03) */}
+      {factors.length > 0 && (
+        <View style={styles.breakdownContainer}>
+          <Text style={styles.breakdownTitle}>Score Breakdown</Text>
+          
+          {factors.map((factor) => (
+            <View key={factor.name} style={styles.factorRow}>
+              <View style={styles.factorHeader}>
+                <View style={styles.factorNameContainer}>
+                  <View
+                    style={[
+                      styles.factorDot,
+                      { backgroundColor: getFactorColor(factor.name) },
+                    ]}
+                  />
+                  <Text style={styles.factorName}>{factor.name}</Text>
+                </View>
+                <Text style={styles.factorContribution}>
+                  +{factor.contribution} pts
+                </Text>
+              </View>
+              
+              {/* Factor progress bar */}
+              <View style={styles.factorBarContainer}>
+                <View
+                  style={[
+                    styles.factorBarFill,
+                    {
+                      width: `${factor.value}%`,
+                      backgroundColor: getFactorColor(factor.name),
+                    },
+                  ]}
+                />
+              </View>
+              
+              {/* Factor details */}
+              <View style={styles.factorDetails}>
+                <Text style={styles.factorValue}>{factor.value}/100</Text>
+                {factor.rawValue && (
+                  <Text style={styles.factorRawValue}>{factor.rawValue}</Text>
+                )}
+                <Text style={styles.factorWeight}>
+                  ({Math.round(factor.weight * 100)}% weight)
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      )}
+
       {lastUpdated && (
         <Text style={styles.lastUpdated}>
           Last updated: {new Date(lastUpdated).toLocaleDateString()}
+          {isLoading && ' (Refreshing...)'}
         </Text>
       )}
     </View>
@@ -146,6 +216,77 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   gaugeLabelMid: {
+    fontSize: 12,
+    color: '#999',
+  },
+  breakdownContainer: {
+    marginTop: 24,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+  },
+  breakdownTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 16,
+  },
+  factorRow: {
+    marginBottom: 16,
+  },
+  factorHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  factorNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  factorDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 8,
+  },
+  factorName: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#333',
+  },
+  factorContribution: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#22c55e',
+  },
+  factorBarContainer: {
+    height: 8,
+    backgroundColor: '#e2e8f0',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  factorBarFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  factorDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  factorValue: {
+    fontSize: 12,
+    color: '#666',
+  },
+  factorRawValue: {
+    fontSize: 12,
+    color: '#999',
+    flex: 1,
+    marginLeft: 8,
+  },
+  factorWeight: {
     fontSize: 12,
     color: '#999',
   },
