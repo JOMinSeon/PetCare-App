@@ -5,6 +5,7 @@ import petRoutes from './pet.routes.js';
 import healthRoutes from './health.routes.js';
 import symptomRoutes from './symptom.routes.js';
 import activityRoutes from './activity.routes.js';
+import dietRoutes from './diet.routes.js';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/pets', petRoutes);
 router.use('/pets', healthRoutes);
 router.use('/', symptomRoutes);
 router.use('/', activityRoutes);
+router.use('/', dietRoutes);
 
 export default router;
