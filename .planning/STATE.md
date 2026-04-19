@@ -2,16 +2,16 @@
 
 **Project:** VitalPaw Proactive
 **Core Value:** Pet owners can proactively manage their pets' health with AI-powered symptom analysis and timely veterinary connections, reducing emergency situations through early detection.
-**Current Focus:** Phase 1 complete, ready for Phase 2
+**Current Focus:** Phase 2 - Authentication & Pet Profiles
 
 ## Current Position
 
 | Field | Value |
 |-------|-------|
-| **Current Phase** | 1 - Project Foundation |
+| **Current Phase** | 2 - Authentication & Pet Profiles |
 | **Current Plan** | 01 - Complete |
-| **Phase Status** | Complete |
-| **Progress** | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% |
+| **Phase Status** | In Progress |
+| **Progress** | 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩 100% (Plan 01 of ~11) |
 
 ## Performance Metrics
 
@@ -21,7 +21,7 @@
 | Phases Complete | 1 |
 | Requirements Total | 50 |
 | Requirements Complete | 0 |
-| Plans Complete | 1 |
+| Plans Complete | 2 |
 
 ## Accumulated Context
 
@@ -31,8 +31,8 @@
 |----------|-----------|--------|
 | Separate backend vs BaaS | Full control over business logic | ✅ Implemented |
 | React Native CLI vs Expo | Native modules for maps/GPS/QR code | ✅ Implemented |
-| Firebase Auth vs custom auth | Faster implementation, proven security | Pending implementation (Phase 2) |
-| Teal primary color palette | Medical professionalism with warmth | Pending implementation (Phase 2) |
+| Firebase Auth vs custom auth | Faster implementation, proven security | ✅ Implemented (Phase 2) |
+| Teal primary color palette | Medical professionalism with warmth | ✅ Implemented (Phase 2) |
 | Prisma 5.22.0 vs 7.x | 7.x has breaking config changes | ✅ Downgraded to 5.x |
 
 ### Key Implementation Notes
@@ -42,6 +42,7 @@
 3. **Map Caching:** Google Maps has strict quotas, need server-side proxy (Phase 4)
 4. **Health Score Transparency:** Users must understand score calculation factors (HLTH-03)
 5. **Prisma 7 Issue:** Prisma 7.x changed datasource config - requires prisma.config.ts. Using 5.22.0 instead.
+6. **JWT Storage:** Custom JWT stored in AsyncStorage for API authentication
 
 ### Dependencies
 
@@ -75,6 +76,15 @@
   - Express server with TypeScript and Prisma 5.22.0
   - Prisma schema with all 8 models defined
   - Health check endpoint working
+- **Phase 2 Plan 01: Firebase Auth Setup - COMPLETE**
+  - Firebase Admin SDK with token verification
+  - JWT exchange endpoints (login, register, me, logout)
+  - Auth middleware for protected routes
+  - @react-native-firebase/auth on mobile
+  - AuthContext with Firebase auth state
+  - SignUpScreen and LoginScreen with validation
+  - Session persistence via onAuthStateChanged
+  - AuthNavigator and MainNavigator with auth-aware switching
 
 **Files Created:**
 - `.planning/PROJECT.md` - Core value and constraints
@@ -83,6 +93,7 @@
 - `.planning/ROADMAP.md` - 6-phase roadmap with success criteria
 - `.planning/STATE.md` - This file
 - `.planning/phases/phase-1/01-SUMMARY.md` - Phase 1 execution summary
+- `.planning/phases/phase-2/01-SUMMARY.md` - Phase 2 Plan 01 execution summary
 - `mobile/` - React Native 0.76.9 project
 - `server/` - Express API with Prisma
 
@@ -93,18 +104,26 @@
 - dcd5f40a feat(phase-1): create Express server with TypeScript and Prisma
 - 3ebb7909 docs(phase-1-01): complete Project Foundation plan
 
+**Phase 2 Plan 01 Commits:**
+- 79ac6f00 feat(phase-2-01): add Firebase admin service and JWT auth endpoints
+- 804987fc feat(phase-2-01): add Firebase Auth screens and navigation
+
 ### Next Action
 
-Proceed to **Phase 2: Authentication & Pet Profiles**
+Proceed to **Phase 2 Plan 02: Pet Profile CRUD**
+- Create pet CRUD endpoints on server (list, create, read, update, delete)
+- Create pet management screens on mobile
+- Implement pet list, add pet, edit pet, delete pet functionality
+- Add species icon component (PET-05)
 
 ### Pending Decisions
 
 - [x] ~~Confirm PostgreSQL schema design with Prisma~~ - Done in Phase 1
-- [ ] Confirm Firebase project configuration
+- [x] ~~Firebase project configuration~~ - Done in Phase 2 Plan 01
 - [ ] Confirm Google Maps API setup
 - [ ] Set up error tracking (Sentry?)
 - [ ] Set up CI/CD pipeline choice (GitHub Actions, EAS, etc.)
 
 ---
 
-*Last updated: 2026-04-19 after Phase 1 completion*
+*Last updated: 2026-04-19 after Phase 2 Plan 01 completion*
