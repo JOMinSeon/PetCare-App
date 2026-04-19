@@ -27,3 +27,36 @@ export interface RiskAlertProps {
   recommendation: string;
   onDismiss?: () => void;
 }
+
+// Service types for pet services map
+export type ServiceType = 'vet' | 'pet_store' | 'groomer' | 'pharmacy' | 'emergency_clinic';
+
+export interface Service {
+  id: string;
+  name: string;
+  type: ServiceType;
+  address: string;
+  latitude: number;
+  longitude: number;
+  phone?: string;
+  rating?: number;
+  reviewCount?: number;
+  is24Hour: boolean;
+  isEmergency: boolean;
+  distance?: number;
+  openingHours?: {
+    [day: string]: { open: string; close: string } | null;
+  };
+}
+
+export interface ServicesResponse {
+  services: Service[];
+  cached: boolean;
+  count: number;
+}
+
+export interface ServiceFilters {
+  types: ServiceType[];
+  is24HourOnly: boolean;
+  emergencyOnly: boolean;
+}

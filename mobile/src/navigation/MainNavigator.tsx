@@ -8,6 +8,7 @@ import { PetDetailScreen } from '../screens/pets/PetDetailScreen';
 import { AddPetScreen } from '../screens/pets/AddPetScreen';
 import { EditPetScreen } from '../screens/pets/EditPetScreen';
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
+import { ServicesMapScreen } from '../screens/map/ServicesMapScreen';
 
 function SettingsScreen(): JSX.Element {
   const { logout } = useAuth();
@@ -64,6 +65,7 @@ function PetsStack(): JSX.Element {
 export type MainTabParamList = {
   DashboardTab: undefined;
   PetsTab: undefined;
+  MapTab: undefined;
   SettingsTab: undefined;
 };
 
@@ -71,6 +73,7 @@ function TabIcon({ name, focused }: { name: string; focused: boolean }): JSX.Ele
   const icons: Record<string, string> = {
     Dashboard: '🏠',
     Pets: '🐾',
+    Map: '🗺️',
     Settings: '⚙️',
   };
   return (
@@ -109,6 +112,11 @@ export function MainNavigator(): JSX.Element {
         name="PetsTab"
         component={PetsStack}
         options={{ tabBarLabel: 'Pets' }}
+      />
+      <Tab.Screen
+        name="MapTab"
+        component={ServicesMapScreen}
+        options={{ tabBarLabel: 'Services' }}
       />
       <Tab.Screen
         name="SettingsTab"
