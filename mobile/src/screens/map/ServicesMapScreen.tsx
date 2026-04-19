@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Platform,
-  PermissionsAndroid,
+  Switch,
 } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useServicesStore } from '../../stores/servicesStore';
@@ -32,6 +32,8 @@ export function ServicesMapScreen(): JSX.Element {
     toggleServiceType,
     setUserLocation,
     getFilteredServices,
+    setIs24HourOnly,
+    setEmergencyOnly,
   } = useServicesStore();
 
   const { location, error: locationError, isLoading: locationLoading } = useLocation();
@@ -174,6 +176,26 @@ export function ServicesMapScreen(): JSX.Element {
           selectedTypes={filters.types}
           onToggleType={toggleServiceType}
         />
+        <View style={styles.toggleRow}>
+          <View style={styles.toggleItem}>
+            <Text style={styles.toggleLabel}>24-Hour</Text>
+            <Switch
+              value={filters.is24HourOnly}
+              onValueChange={setIs24HourOnly}
+              trackColor={{ false: '#ddd', true: '#00897B' }}
+              thumbColor="#fff"
+            />
+          </View>
+          <View style={styles.toggleItem}>
+            <Text style={styles.toggleLabel}>Emergency</Text>
+            <Switch
+              value={filters.emergencyOnly}
+              onValueChange={setEmergencyOnly}
+              trackColor={{ false: '#ddd', true: '#EF5350' }}
+              thumbColor="#fff"
+            />
+          </View>
+        </View>
       </View>
 
       {/* Service Count */}
@@ -253,6 +275,22 @@ const styles = StyleSheet.create({
     right: 0,
     paddingTop: Platform.OS === 'ios' ? 50 : 8,
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 24,
+  },
+  toggleItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  toggleLabel: {
+    fontSize: 14,
+    color: '#333',
   },
   countContainer: {
     position: 'absolute',

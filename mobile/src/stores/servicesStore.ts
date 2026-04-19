@@ -21,6 +21,8 @@ interface ServicesState {
   setSelectedService: (service: Service | null) => void;
   setFilters: (filters: Partial<ServiceFilters>) => void;
   toggleServiceType: (type: ServiceType) => void;
+  setIs24HourOnly: (value: boolean) => void;
+  setEmergencyOnly: (value: boolean) => void;
   setUserLocation: (location: { latitude: number; longitude: number } | null) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
@@ -69,6 +71,16 @@ export const useServicesStore = create<ServicesState>((set, get) => ({
     }),
 
   setUserLocation: (location) => set({ userLocation: location }),
+
+  setIs24HourOnly: (value) =>
+    set((state) => ({
+      filters: { ...state.filters, is24HourOnly: value },
+    })),
+
+  setEmergencyOnly: (value) =>
+    set((state) => ({
+      filters: { ...state.filters, emergencyOnly: value },
+    })),
 
   setLoading: (isLoading) => set({ isLoading }),
 
